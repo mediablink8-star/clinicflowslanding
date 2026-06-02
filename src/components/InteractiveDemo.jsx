@@ -66,9 +66,9 @@ const badgeStyles = {
 }
 
 function DashboardView() {
-  const revenue = 0
-  const weeklyRevenue = 0
-  const recovered = 0
+  const revenue = 1280
+  const weeklyRevenue = 340
+  const recovered = 8
 
   return (
     <motion.div
@@ -308,17 +308,17 @@ function PatientsView() {
 }
 
 function AnalyticsView() {
-  const monthlyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  const monthlyData = [35, 45, 30, 55, 48, 65, 58, 72, 68, 80, 75, 90]
   const months = ['Ιαν', 'Φεβ', 'Μαρ', 'Απρ', 'Μαι', 'Ιουν', 'Ιουλ', 'Αυγ', 'Σεπ', 'Οκτ', 'Νοε', 'Δεκ']
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 sm:p-4" style={{ background: '#f8fafc', height: '100%' }}>
       <SectionHeader icon={BarChart2}>Αναλυτικά Στοιχεία</SectionHeader>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px', marginBottom: '12px' }}>
         {[
-          { label: 'Σύνολο Ραντεβού', value: '0', change: '0%', color: '#635BFF' },
-          { label: 'Ποσοστό Ανάκτησης', value: '0%', change: '0%', color: '#10b981' },
-          { label: 'Νέοι Ασθενείς', value: '0', change: '0', color: '#f59e0b' },
-          { label: 'Έσοδα Μήνα', value: '€0', change: '€0', color: '#8b5cf6' },
+          { label: 'Σύνολο Ραντεβού', value: '156', change: '+12%', color: '#635BFF' },
+          { label: 'Ποσοστό Ανάκτησης', value: '94%', change: '+5%', color: '#10b981' },
+          { label: 'Νέοι Ασθενείς', value: '28', change: '+8', color: '#f59e0b' },
+          { label: 'Έσοδα Μήνα', value: '€4,280', change: '+€620', color: '#8b5cf6' },
         ].map((s) => (
           <div key={s.label} style={{ ...glassCard, borderRadius: '14px', padding: '0.9rem 1rem' }}>
             <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>{s.label}</div>
@@ -394,9 +394,9 @@ function ReportsView() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' }}>
         {[
           { label: 'Μηνιαία Έκθεση', desc: 'Ιούνιος 2026', color: '#635BFF', icon: BarChart2 },
-          { label: 'Ανάκτηση Κλήσεων', desc: '0% επιτυχία', color: '#10b981', icon: PhoneCall },
-          { label: 'Ικανοποίηση Ασθενών', desc: '0/5.0 βαθμολογία', color: '#f59e0b', icon: Star },
-          { label: 'Οικονομικά Στοιχεία', desc: '€0 έσοδα', color: '#8b5cf6', icon: Trending },
+          { label: 'Ανάκτηση Κλήσεων', desc: '94% επιτυχία', color: '#10b981', icon: PhoneCall },
+          { label: 'Ικανοποίηση Ασθενών', desc: '4.8/5.0 βαθμολογία', color: '#f59e0b', icon: Star },
+          { label: 'Οικονομικά Στοιχεία', desc: '€4,280 έσοδα', color: '#8b5cf6', icon: Trending },
         ].map((r) => (
           <div key={r.label} style={{ ...glassCard, borderRadius: '16px', padding: '1rem 1.25rem', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:shadow-md">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
