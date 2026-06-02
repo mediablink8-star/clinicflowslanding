@@ -66,9 +66,9 @@ const badgeStyles = {
 }
 
 function DashboardView() {
-  const revenue = 1280
-  const weeklyRevenue = 340
-  const recovered = 8
+  const displayRevenue = 1280
+  const displayWeeklyRevenue = 340
+  const displayRecovered = 8
 
   return (
     <motion.div
@@ -124,14 +124,14 @@ function DashboardView() {
             </span>
           </div>
           <span className="demo-revenue-amount" style={{ fontSize: '3.2rem', fontWeight: 950, color: 'white', letterSpacing: '-0.05em', lineHeight: 1, textAlign: 'left' }}>
-            €{revenue.toLocaleString()}
+            €{displayRevenue.toLocaleString()}
           </span>
           <div style={{ marginTop: '14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span className="demo-revenue-badge" style={{ fontSize: '0.85rem', fontWeight: 700, color: 'white', display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(255,255,255,0.15)', padding: '4px 10px', borderRadius: '8px' }}>
-              +€{weeklyRevenue} <span style={{ opacity: 0.8, fontSize: '0.75rem' }}>7ημερο</span>
+              +€{displayWeeklyRevenue} <span style={{ opacity: 0.8, fontSize: '0.75rem' }}>7ημερο</span>
             </span>
             <span style={{ fontSize: '0.78rem', fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontStyle: 'italic' }}>
-              {recovered} ασθενείς επανήλθαν
+              {displayRecovered} ασθενείς επανήλθαν
             </span>
           </div>
         </div>
@@ -490,6 +490,7 @@ const viewComponents = {
   settings: SettingsView,
 }
 
+// Force redeploy with explicit metric variables
 export default function InteractiveDemo() {
   const [activeTab, setActiveTab] = useState('dashboard')
   const ActiveView = viewComponents[activeTab] || DashboardView
