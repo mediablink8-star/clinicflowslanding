@@ -200,25 +200,23 @@ function DashboardView() {
           <div className="demo-action-center" style={{ ...glassCard, borderRadius: '20px', padding: '1rem' }}>
             <SectionHeader icon={Zap}>Κέντρο Ενεργειών</SectionHeader>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(16,185,129,0.2)' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '12px', background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981' }}>
+                  <Trending size={16} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0f172a' }}>€1,280 Κέρδος αυτό το μήνα</div>
+                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Από κλήσεις που θα είχαν χαθεί</div>
+                </div>
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '14px', background: 'rgba(99,91,255,0.04)', border: '1px solid rgba(99,91,255,0.1)' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '12px', background: 'rgba(99,91,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#635BFF' }}>
                   <PhoneCall size={16} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>2 αναπάντητες κλήσεις</div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Αποστολή SMS ανάκτησης</div>
+                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Η Sophia στέλνει SMS...</div>
                 </div>
-                <button style={{ padding: '6px 12px', borderRadius: '8px', border: 'none', background: '#635BFF', color: 'white', fontSize: '0.7rem', fontWeight: 700, cursor: 'pointer' }}>Αποστολή</button>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '14px', background: 'rgba(16,185,129,0.04)', border: '1px solid rgba(16,185,129,0.1)' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '12px', background: 'rgba(16,185,129,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#10b981' }}>
-                  <MessageSquare size={16} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0f172a' }}>3 ασθενείς απάντησαν</div>
-                  <div style={{ fontSize: '0.7rem', color: '#64748b' }}>Χρειάζονται απάντηση</div>
-                </div>
-                <button style={{ padding: '6px 12px', borderRadius: '8px', border: '1px solid rgba(16,185,129,0.2)', background: 'transparent', color: '#10b981', fontSize: '0.7rem', fontWeight: 700, cursor: 'pointer' }}>Προβολή</button>
               </div>
             </div>
           </div>

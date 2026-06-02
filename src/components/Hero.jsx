@@ -134,10 +134,9 @@ export default function Hero() {
 
         <motion.p
           variants={itemVariants}
-          className="mx-auto mt-10 max-w-3xl text-xl leading-relaxed text-text-muted sm:text-3xl font-light tracking-tight"
+          className="mx-auto mt-10 max-w-4xl text-xl leading-relaxed text-text-muted sm:text-3xl font-light tracking-tight"
         >
-          Αναβαθμίστε το ιατρείο σας με το πρώτο <span className="text-white font-bold">Νευρωνικό Λειτουργικό Σύστημα Κλινικής</span> παγκοσμίως. 
-          Το μέλλον δεν είναι απλά αυτοματοποιημένο — είναι νοήμον.
+          Ανακτήστε τον έλεγχο του χρόνου σας. Η <span className="text-white font-bold">AI Sophia</span> διαχειρίζεται το πρόγραμμα και τις κλήσεις σας 24/7, επιτρέποντάς σας να αφοσιωθείτε αποκλειστικά στους ασθενείς σας.
         </motion.p>
 
         <motion.div
