@@ -150,9 +150,9 @@ function DashboardView() {
           <div style={{ ...glassCard, borderRadius: '20px', display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
             <div style={{ padding: '0.7rem 1rem 0.2rem', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <SectionHeader icon={Activity}>Live Δραστηριότητα</SectionHeader>
-              <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.62rem', fontWeight: 700, color: '#10b981' }}>
-                <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#10b981' }} />
-                Live
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.62rem', fontWeight: 800, color: '#10b981' }}>
+                <span className="animate-pulse" style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }} />
+                LIVE
               </span>
             </div>
             <div style={{ padding: '0 0.5rem 0.5rem', flex: 1, minHeight: 0, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#e2e8f0 transparent' }}>

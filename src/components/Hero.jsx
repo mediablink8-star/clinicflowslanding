@@ -1,3 +1,4 @@
+import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles, Shield, Zap, HeartPulse, Calendar, Bot, ChevronDown } from 'lucide-react'
 import MagneticButton from './MagneticButton'
@@ -17,102 +18,132 @@ function DashboardMockup() {
     <motion.div
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: 0.5 }}
-      className="relative mx-auto max-w-4xl will-change-transform"
+      transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="relative mx-auto max-w-5xl will-change-transform px-4"
     >
-      <div className="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-primary via-accent to-primary opacity-30 blur-xl animate-pulse-glow" />
-      <InteractiveDemo />
+      <div className="absolute -inset-2 rounded-[2rem] bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 opacity-40 blur-2xl animate-pulse-glow" />
+      <div className="relative rounded-[2rem] p-1 bg-gradient-to-b from-white/10 to-transparent backdrop-blur-sm shadow-2xl">
+        <InteractiveDemo />
+      </div>
     </motion.div>
   )
 }
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      <div className="absolute inset-0 grid-pattern" />
-      <div className="absolute inset-0 dots-pattern opacity-60" />
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] animate-pulse-glow will-change-transform" />
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] animate-pulse-glow will-change-transform" style={{ animationDelay: '1.5s' }} />
-      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-accent/4 rounded-full blur-[100px] animate-pulse-glow will-change-transform" style={{ animationDelay: '0.8s' }} />
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePos({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-20">
+      <div className="absolute inset-0 grid-pattern opacity-40" />
+      <div className="absolute inset-0 dots-pattern opacity-30" />
+      
+      {/* Mouse Follower Glow */}
+      <div 
+        className="pointer-events-none absolute hidden lg:block w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-transform duration-700 ease-out z-0"
+        style={{ 
+          transform: `translate(${mousePos.x - 300}px, ${mousePos.y - 300}px)`,
+          left: 0,
+          top: 0
+        }}
+      />
+
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] animate-pulse-glow" />
+      
+      {/* Dynamic AI Background Element */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 ai-orb mix-blend-screen opacity-20" />
+
+      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '1.5s' }} />
+      <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-accent/4 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '0.8s' }} />
 
       {floatingBadges.map(({ Icon, label, x, y, delay, color, rotate }) => (
-        <div
+        <motion.div
           key={label}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: delay + 0.5, ease: "easeOut" }}
           className="absolute hidden lg:block will-change-transform animate-float"
           style={{ left: x, top: y, rotate, animationDelay: `${delay}s` }}
         >
-          <div className="flex items-center gap-2 rounded-2xl border border-dark-border/60 bg-dark-card/70 px-3.5 py-2.5 shadow-2xl shadow-black/30 backdrop-blur-md hover:border-primary/30 transition-colors duration-300 will-change-transform">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg" style={{ background: `${color}18` }}>
+          <div className="flex items-center gap-2 rounded-2xl border border-dark-border/40 bg-dark-card/40 px-3.5 py-2.5 shadow-2xl shadow-black/40 backdrop-blur-xl hover:border-primary/50 transition-all duration-500 group cursor-default">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6" style={{ background: `${color}25` }}>
               <Icon size={16} style={{ color }} />
             </div>
-            <span className="text-xs font-semibold whitespace-nowrap">{label}</span>
+            <span className="text-xs font-bold tracking-tight text-white/90 group-hover:text-white transition-colors">{label}</span>
           </div>
-        </div>
+        </motion.div>
       ))}
 
-      <div className="relative z-10 mx-auto max-w-5xl px-6 text-center will-change-transform">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary shadow-lg shadow-primary/5"
+          transition={{ duration: 0.8 }}
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-white/80 backdrop-blur-md shadow-xl"
         >
-          <Sparkles size={13} className="animate-pulse" />
-          Διαχείριση Ιατρείου με AI
-          <span className="ml-1 rounded-md bg-primary/15 px-1.5 py-0.5 text-[10px] font-bold">NEW</span>
+          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/20 text-primary">
+            <Sparkles size={12} className="animate-pulse" />
+          </div>
+          <span className="tracking-tight">Η επόμενη γενιά στην Υγειονομική Περίθαλψη</span>
+          <span className="ml-1 rounded-full bg-primary/20 px-2 py-0.5 text-[10px] font-bold text-primary uppercase tracking-wider">v2.0</span>
         </motion.div>
 
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-3xl font-extrabold leading-tight sm:text-5xl md:text-6xl lg:text-7xl"
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="text-4xl font-black leading-[1.1] sm:text-6xl md:text-7xl lg:text-8xl tracking-tighter"
         >
           Το Μέλλον της{' '}
-          <span className="shimmer-text">Διαχείρισης Ιατρείου</span>
+          <span className="shimmer-text">Φροντίδας</span>
           <br />
-          Ξεκινά Εδώ
+          Είναι Εδώ
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-muted sm:text-xl"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-text-muted sm:text-2xl font-medium"
         >
-          Αυτοματοποίησε ραντεβού, ανάκτησε χαμένες κλήσεις με AI, βελτιστοποίησε
-          την επικοινωνία με ασθενείς και ανέπτυξε το ιατρείο σου — από μία πλατφόρμα.
+          Απελευθερώστε το χρόνο σας με την AI Sophia. Αυτοματοποιημένα ραντεβού, 
+          έξυπνη επικοινωνία και πλήρης διαχείριση σε μία μαγική πλατφόρμα.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-12 flex flex-col items-center gap-5 sm:flex-row sm:justify-center"
         >
           <MagneticButton href="https://clinicflows.vercel.app/register">
-            <span className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl px-8 py-3.5 text-base font-bold text-white">
-              <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-100 group-hover:opacity-90 transition-opacity" />
-              <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+            <span className="group relative flex items-center justify-center gap-3 overflow-hidden rounded-2xl px-10 py-4.5 text-lg font-black text-white transition-all">
+              <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent opacity-100 transition-opacity" />
+              <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-xl opacity-50 group-hover:opacity-80 transition-opacity" />
               <span className="relative flex items-center gap-2">
-                Δωρεάν Δοκιμή
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                Ξεκινήστε Δωρεάν
+                <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
               </span>
             </span>
           </MagneticButton>
           <MagneticButton>
-            <a href="#features" className="flex items-center justify-center gap-2 rounded-xl border border-dark-border bg-dark-card/50 px-8 py-3.5 text-base font-semibold text-white transition-all hover:border-primary/30 hover:bg-dark-card hover:shadow-lg hover:shadow-primary/5">
-              Δες το Demo
-              <ChevronDown size={16} className="transition-transform group-hover:translate-y-0.5" />
+            <a href="#features" className="flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-10 py-4.5 text-lg font-bold text-white backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/10 hover:shadow-2xl">
+              Δείτε τις Δυνατότητες
             </a>
           </MagneticButton>
         </motion.div>
 
-          <div className="mt-10 sm:mt-16">
-            <DashboardMockup />
-          </div>
+        <div className="mt-24 sm:mt-32">
+          <DashboardMockup />
         </div>
+      </div>
     </section>
   )
 }

@@ -121,10 +121,53 @@ body {
   100% { transform: translate(-5%, -3%) scale(1); }
 }
 
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes morph {
+  0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+
 @keyframes float {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   33% { transform: translateY(-10px) rotate(0.5deg); }
   66% { transform: translateY(-5px) rotate(-0.5deg); }
+}
+
+.ai-orb {
+  background: radial-gradient(circle at center, var(--color-primary), var(--color-accent));
+  filter: blur(40px);
+  opacity: 0.4;
+  animation: morph 8s ease-in-out infinite, spin-slow 20s linear infinite;
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0.3;
+  filter: blur(10px);
+}
+
+.stagger-reveal span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.parallax-bg {
+  transform: translateY(var(--parallax-offset, 0px));
 }
 
 @keyframes float-slow {

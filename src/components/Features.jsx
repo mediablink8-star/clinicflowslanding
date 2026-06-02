@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import {
   CalendarCheck, Users, Bot, PhoneCall, MessageSquare,
-  BarChart3, Shield, Webhook, Brain, Timer,
+  BarChart3, Shield, Webhook, Brain, Timer, ArrowUpRight
 } from 'lucide-react'
 import { useTilt } from './useEffects'
 
@@ -69,31 +69,36 @@ function FeatureCard({ feature, index }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-30px' }}
-      transition={{ duration: 0.5, delay: index * 0.04 }}
-      whileHover={{ y: -6, transition: { duration: 0.2 } }}
-      className={`group relative rounded-2xl border border-dark-border bg-dark-card/50 p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-black/30 ${
-        index % 3 === 1 ? 'lg:translate-y-6' : index % 3 === 2 ? 'lg:translate-y-3' : ''
+      transition={{ duration: 0.6, delay: index * 0.05 }}
+      whileHover={{ y: -10, scale: 1.02 }}
+      className={`group relative rounded-3xl border border-dark-border bg-dark-card/40 p-8 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${
+        index % 3 === 1 ? 'lg:translate-y-8' : index % 3 === 2 ? 'lg:translate-y-4' : ''
       }`}
       style={{
-        transform: `perspective(800px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
-        transition: 'transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+        transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.borderColor = feature.color + '40' }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = feature.color + '50' }}
       onMouseLeave={(e) => { e.currentTarget.style.borderColor = '' }}
     >
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{ background: `linear-gradient(135deg, ${feature.color}08, transparent)` }}
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+        style={{ background: `radial-gradient(circle at top right, ${feature.color}15, transparent 70%)` }}
       />
       <div
-        className="relative mb-4 flex h-12 w-12 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-lg"
-        style={{ background: `linear-gradient(135deg, ${feature.color}20, ${feature.color}08)`, boxShadow: `0 0 20px ${feature.color}10` }}
+        className="relative mb-6 flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 group-hover:shadow-xl"
+        style={{ background: `linear-gradient(135deg, ${feature.color}25, ${feature.color}10)`, boxShadow: `0 0 30px ${feature.color}15` }}
       >
-        <feature.icon size={22} style={{ color: feature.color }} />
+        <feature.icon size={26} style={{ color: feature.color }} />
       </div>
-      <h3 className="relative mb-2 text-lg font-bold">{feature.title}</h3>
-      <p className="relative text-sm leading-relaxed text-text-muted">{feature.description}</p>
-      <div className="absolute bottom-0 left-0 right-0 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-        style={{ background: `linear-gradient(90deg, ${feature.color}, transparent)` }}
+      <h3 className="relative mb-3 text-xl font-bold tracking-tight">{feature.title}</h3>
+      <p className="relative text-sm leading-relaxed text-text-muted/90 group-hover:text-text-muted transition-colors">{feature.description}</p>
+      
+      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-2 group-hover:translate-x-0">
+        <ArrowUpRight size={18} style={{ color: feature.color }} />
+      </div>
+
+      <div className="absolute bottom-0 left-8 right-8 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"
+        style={{ background: `linear-gradient(90deg, transparent, ${feature.color}, transparent)` }}
       />
     </motion.div>
   )
