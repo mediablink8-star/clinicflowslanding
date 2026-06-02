@@ -128,16 +128,16 @@ export default function Hero() {
           variants={itemVariants}
           className="text-5xl font-black leading-[0.95] sm:text-7xl md:text-8xl lg:text-9xl tracking-tighter"
         >
-          Intelligence<br />
-          <span className="shimmer-text glow-text">Beyond Care</span>
+          Νευρωνική<br />
+          <span className="shimmer-text glow-text">Νοημοσύνη</span>
         </motion.h1>
 
         <motion.p
           variants={itemVariants}
           className="mx-auto mt-10 max-w-3xl text-xl leading-relaxed text-text-muted sm:text-3xl font-light tracking-tight"
         >
-          Elevate your practice with the world's first <span className="text-white font-bold">Neural Clinic Operating System</span>. 
-          The future isn't automated—it's intelligent.
+          Αναβαθμίστε το ιατρείο σας με το πρώτο <span className="text-white font-bold">Νευρωνικό Λειτουργικό Σύστημα Κλινικής</span> παγκοσμίως. 
+          Το μέλλον δεν είναι απλά αυτοματοποιημένο — είναι νοήμον.
         </motion.p>
 
         <motion.div
@@ -149,14 +149,14 @@ export default function Hero() {
               <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-shimmer" />
               <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-2xl opacity-60 group-hover:opacity-100 transition-opacity" />
               <span className="relative flex items-center gap-3">
-                DEPLOY SYSTEM
+                ΕΝΕΡΓΟΠΟΙΗΣΗ ΣΥΣΤΗΜΑΤΟΣ
                 <ArrowRight size={24} className="transition-transform group-hover:translate-x-2" />
               </span>
             </span>
           </MagneticButton>
           <MagneticButton>
             <a href="#features" className="group flex items-center justify-center gap-3 rounded-2xl border-2 border-white/10 bg-white/5 px-12 py-5 text-xl font-black text-white backdrop-blur-xl transition-all hover:border-white/30 hover:bg-white/10 hover:shadow-[0_0_50px_rgba(255,255,255,0.1)]">
-              EXPLORE CORE
+              ΕΞΕΡΕΥΝΗΣΗ CORE
             </a>
           </MagneticButton>
         </motion.div>
