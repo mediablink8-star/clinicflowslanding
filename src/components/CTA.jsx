@@ -35,8 +35,8 @@ export default function CTA() {
               <span className="gradient-text">το Ιατρείο σου;</span>
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-lg text-text-muted">
-              Χιλιάδες επαγγελματίες υγείας εμπιστεύονται το ClinicFlow για
-              αυτοματοποίηση και ανάπτυξη της πρακτικής τους.
+              Εντάξου στο μέλλον της διαχείρισης ιατρείων με το ClinicFlow και
+              αυτοματοποίησε την πρακτική σου σήμερα.
             </p>
 
             <motion.div

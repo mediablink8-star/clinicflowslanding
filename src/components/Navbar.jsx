@@ -6,7 +6,6 @@ const navLinks = [
   { label: 'Δυνατότητες', href: '#features' },
   { label: 'Πώς Λειτουργεί', href: '#how-it-works' },
   { label: 'Τιμολόγηση', href: '#pricing' },
-  { label: 'Κριτικές', href: '#testimonials' },
 ]
 
 export default function Navbar() {

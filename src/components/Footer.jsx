@@ -5,7 +5,6 @@ const footerLinks = {
     { label: 'Δυνατότητες', href: '#features' },
     { label: 'Τιμολόγηση', href: '#pricing' },
     { label: 'Πώς Λειτουργεί', href: '#how-it-works' },
-    { label: 'Κριτικές', href: '#testimonials' },
   ],
   Εταιρεία: [
     { label: 'Σχετικά', href: '#' },

@@ -35,13 +35,7 @@ const navSections = [
   },
 ]
 
-const todayAppointments = [
-  { id: 1, time: '09:00', date: 'σήμερα', patient: 'Μαρία Παπαδοπούλου', type: 'Γενική Εξέταση', status: 'confirmed', doctor: 'Δρ. Γιώργος' },
-  { id: 2, time: '10:30', date: 'σήμερα', patient: 'Γιάννης Κώστας', type: 'Follow-up', status: 'confirmed', doctor: 'Δρ. Γιώργος' },
-  { id: 3, time: '11:00', date: 'σήμερα', patient: 'Ελένη Αποστόλου', type: 'Επείγον Περιστατικό', status: 'urgent', doctor: 'Δρ. Μαρία' },
-  { id: 4, time: '12:00', date: 'σήμερα', patient: 'Δημήτρης Νίκου', type: 'Καθαρισμός', status: 'pending', doctor: 'Δρ. Μαρία' },
-  { id: 5, time: '13:30', date: 'σήμερα', patient: 'Σοφία Αλεξάνδρου', type: 'Γενική Εξέταση', status: 'confirmed', doctor: 'Δρ. Γιώργος' },
-]
+const todayAppointments = []
 
 const SectionHeader = ({ children, icon: Icon }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.3rem' }}>
@@ -72,9 +66,9 @@ const badgeStyles = {
 }
 
 function DashboardView() {
-  const revenue = 1280
-  const weeklyRevenue = 340
-  const recovered = 8
+  const revenue = 0
+  const weeklyRevenue = 0
+  const recovered = 0
 
   return (
     <motion.div
@@ -156,15 +150,7 @@ function DashboardView() {
               </span>
             </div>
             <div style={{ padding: '0 0.5rem 0.5rem', flex: 1, minHeight: 0, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#e2e8f0 transparent' }}>
-              {[
-                { caller: 'Ελένη Αποστόλου', phone: '+30 698 123 4567', status: 'recovered', duration: '1:24', action: 'SMS ανάκτησης', time: '13:28', color: '#10b981' },
-                { caller: 'Νίκος Βασιλείου', phone: '+30 697 987 6543', status: 'missed', duration: '—', action: 'Αναμονή SMS', time: '13:15', color: '#ef4444' },
-                { caller: 'Άννα Χριστοδούλου', phone: '+30 693 654 3210', status: 'answered', duration: '3:47', action: 'Κράτηση ραντεβού', time: '12:45', color: '#635BFF' },
-                { caller: 'Γιάννης Κώστας', phone: '+30 694 321 0987', status: 'recovered', duration: '0:58', action: 'Follow-up SMS', time: '12:22', color: '#10b981' },
-                { caller: 'Μαρία Παπαδοπούλου', phone: '+30 695 456 7890', status: 'answered', duration: '2:12', action: 'Επιβεβαίωση ραντεβού', time: '12:00', color: '#635BFF' },
-                { caller: 'Δημήτρης Νίκου', phone: '+30 696 789 0123', status: 'missed', duration: '—', action: 'Προγραμματισμός κλήσης', time: '11:38', color: '#ef4444' },
-                { caller: 'Σοφία Αλεξάνδρου', phone: '+30 690 234 5678', status: 'recovered', duration: '2:05', action: 'SMS ανάκτησης', time: '11:15', color: '#10b981' },
-              ].map((item, i) => {
+              {[].map((item, i) => {
                 const statusLabel = item.status === 'missed' ? 'Αναπάντητη' : item.status === 'recovered' ? 'Ανακτήθηκε' : 'Απαντήθηκε'
                 return (
                   <div key={i} style={{ display: 'flex', gap: '10px', padding: '8px 8px', borderRadius: '10px', alignItems: 'center', marginBottom: '2px' }}>
@@ -289,13 +275,7 @@ function AppointmentsView() {
 }
 
 function PatientsView() {
-  const patients = [
-    { id: 1, name: 'Ανδρέας Κυριάκου', phone: '+30 698 123 4567', lastVisit: 'Σήμερα', status: 'new' },
-    { id: 2, name: 'Κατερίνα Σταύρου', phone: '+30 697 987 6543', lastVisit: 'Χθες', status: 'followup' },
-    { id: 3, name: 'Μιχάλης Πέτρου', phone: '+30 695 456 7890', lastVisit: '2 μέρες πριν', status: 'recurring' },
-    { id: 4, name: 'Νίκος Βασιλείου', phone: '+30 694 321 0987', lastVisit: '3 μέρες πριν', status: 'recurring' },
-    { id: 5, name: 'Άννα Χριστοδούλου', phone: '+30 693 654 3210', lastVisit: '5 μέρες πριν', status: 'new' },
-  ]
+    const patients = []
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 sm:p-4" style={{ background: '#f8fafc', height: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
@@ -328,17 +308,17 @@ function PatientsView() {
 }
 
 function AnalyticsView() {
-  const monthlyData = [35, 45, 30, 55, 48, 65, 58, 72, 68, 80, 75, 90]
+  const monthlyData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   const months = ['Ιαν', 'Φεβ', 'Μαρ', 'Απρ', 'Μαι', 'Ιουν', 'Ιουλ', 'Αυγ', 'Σεπ', 'Οκτ', 'Νοε', 'Δεκ']
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 sm:p-4" style={{ background: '#f8fafc', height: '100%' }}>
       <SectionHeader icon={BarChart2}>Αναλυτικά Στοιχεία</SectionHeader>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px', marginBottom: '12px' }}>
         {[
-          { label: 'Σύνολο Ραντεβού', value: '156', change: '+12%', color: '#635BFF' },
-          { label: 'Ποσοστό Ανάκτησης', value: '94%', change: '+5%', color: '#10b981' },
-          { label: 'Νέοι Ασθενείς', value: '28', change: '+8', color: '#f59e0b' },
-          { label: 'Έσοδα Μήνα', value: '€4,280', change: '+€620', color: '#8b5cf6' },
+          { label: 'Σύνολο Ραντεβού', value: '0', change: '0%', color: '#635BFF' },
+          { label: 'Ποσοστό Ανάκτησης', value: '0%', change: '0%', color: '#10b981' },
+          { label: 'Νέοι Ασθενείς', value: '0', change: '0', color: '#f59e0b' },
+          { label: 'Έσοδα Μήνα', value: '€0', change: '€0', color: '#8b5cf6' },
         ].map((s) => (
           <div key={s.label} style={{ ...glassCard, borderRadius: '14px', padding: '0.9rem 1rem' }}>
             <div style={{ fontSize: '0.68rem', fontWeight: 800, color: '#475569', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>{s.label}</div>
@@ -414,9 +394,9 @@ function ReportsView() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '12px' }}>
         {[
           { label: 'Μηνιαία Έκθεση', desc: 'Ιούνιος 2026', color: '#635BFF', icon: BarChart2 },
-          { label: 'Ανάκτηση Κλήσεων', desc: '94% επιτυχία', color: '#10b981', icon: PhoneCall },
-          { label: 'Ικανοποίηση Ασθενών', desc: '4.8/5.0 βαθμολογία', color: '#f59e0b', icon: Star },
-          { label: 'Οικονομικά Στοιχεία', desc: '€4,280 έσοδα', color: '#8b5cf6', icon: Trending },
+          { label: 'Ανάκτηση Κλήσεων', desc: '0% επιτυχία', color: '#10b981', icon: PhoneCall },
+          { label: 'Ικανοποίηση Ασθενών', desc: '0/5.0 βαθμολογία', color: '#f59e0b', icon: Star },
+          { label: 'Οικονομικά Στοιχεία', desc: '€0 έσοδα', color: '#8b5cf6', icon: Trending },
         ].map((r) => (
           <div key={r.label} style={{ ...glassCard, borderRadius: '16px', padding: '1rem 1.25rem', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:shadow-md">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
@@ -480,7 +460,7 @@ function SettingsView() {
         {[
           { label: 'Προφίλ Ιατρείου', desc: 'Όνομα, διεύθυνση, τηλέφωνο', active: true },
           { label: 'Ωράριο Λειτουργίας', desc: 'Δευ-Παρ: 09:00-17:00', active: true },
-          { label: 'Ενσωματώσεις', desc: 'Twilio, Vapi, n8n, Webhooks', active: true },
+          { label: 'Ενσωματώσεις', desc: 'n8n, Webhooks, API', active: true },
           { label: 'AI Βοηθός', desc: 'Gemini API, φωνητικές εντολές', active: false },
           { label: 'Ομάδα', desc: '3 μέλη προσωπικού', active: false },
         ].map((item) => (
