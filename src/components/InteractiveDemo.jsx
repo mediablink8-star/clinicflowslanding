@@ -35,7 +35,13 @@ const navSections = [
   },
 ]
 
-const todayAppointments = []
+const todayAppointments = [
+  { id: 1, time: '09:00', date: 'σήμερα', patient: 'Μαρία Παπαδοπούλου', type: 'Γενική Εξέταση', status: 'confirmed', doctor: 'Δρ. Γιώργος' },
+  { id: 2, time: '10:30', date: 'σήμερα', patient: 'Γιάννης Κώστας', type: 'Follow-up', status: 'confirmed', doctor: 'Δρ. Γιώργος' },
+  { id: 3, time: '11:00', date: 'σήμερα', patient: 'Ελένη Αποστόλου', type: 'Επείγον Περιστατικό', status: 'urgent', doctor: 'Δρ. Μαρία' },
+  { id: 4, time: '12:00', date: 'σήμερα', patient: 'Δημήτρης Νίκου', type: 'Καθαρισμός', status: 'pending', doctor: 'Δρ. Μαρία' },
+  { id: 5, time: '13:30', date: 'σήμερα', patient: 'Σοφία Αλεξάνδρου', type: 'Γενική Εξέταση', status: 'confirmed', doctor: 'Δρ. Γιώργος' },
+]
 
 const SectionHeader = ({ children, icon: Icon }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '0.3rem' }}>
@@ -150,7 +156,15 @@ function DashboardView() {
               </span>
             </div>
             <div style={{ padding: '0 0.5rem 0.5rem', flex: 1, minHeight: 0, overflowY: 'auto', scrollbarWidth: 'thin', scrollbarColor: '#e2e8f0 transparent' }}>
-              {[].map((item, i) => {
+              {[
+                { caller: 'Ελένη Αποστόλου', phone: '+30 698 123 4567', status: 'recovered', duration: '1:24', action: 'SMS ανάκτησης', time: '13:28', color: '#10b981' },
+                { caller: 'Νίκος Βασιλείου', phone: '+30 697 987 6543', status: 'missed', duration: '—', action: 'Αναμονή SMS', time: '13:15', color: '#ef4444' },
+                { caller: 'Άννα Χριστοδούλου', phone: '+30 693 654 3210', status: 'answered', duration: '3:47', action: 'Κράτηση ραντεβού', time: '12:45', color: '#635BFF' },
+                { caller: 'Γιάννης Κώστας', phone: '+30 694 321 0987', status: 'recovered', duration: '0:58', action: 'Follow-up SMS', time: '12:22', color: '#10b981' },
+                { caller: 'Μαρία Παπαδοπούλου', phone: '+30 695 456 7890', status: 'answered', duration: '2:12', action: 'Επιβεβαίωση ραντεβού', time: '12:00', color: '#635BFF' },
+                { caller: 'Δημήτρης Νίκου', phone: '+30 696 789 0123', status: 'missed', duration: '—', action: 'Προγραμματισμός κλήσης', time: '11:38', color: '#ef4444' },
+                { caller: 'Σοφία Αλεξάνδρου', phone: '+30 690 234 5678', status: 'recovered', duration: '2:05', action: 'SMS ανάκτησης', time: '11:15', color: '#10b981' },
+              ].map((item, i) => {
                 const statusLabel = item.status === 'missed' ? 'Αναπάντητη' : item.status === 'recovered' ? 'Ανακτήθηκε' : 'Απαντήθηκε'
                 return (
                   <div key={i} style={{ display: 'flex', gap: '10px', padding: '8px 8px', borderRadius: '10px', alignItems: 'center', marginBottom: '2px' }}>
@@ -275,7 +289,13 @@ function AppointmentsView() {
 }
 
 function PatientsView() {
-    const patients = []
+    const patients = [
+    { id: 1, name: 'Ανδρέας Κυριάκου', phone: '+30 698 123 4567', lastVisit: 'Σήμερα', status: 'new' },
+    { id: 2, name: 'Κατερίνα Σταύρου', phone: '+30 697 987 6543', lastVisit: 'Χθες', status: 'followup' },
+    { id: 3, name: 'Μιχάλης Πέτρου', phone: '+30 695 456 7890', lastVisit: '2 μέρες πριν', status: 'recurring' },
+    { id: 4, name: 'Νίκος Βασιλείου', phone: '+30 694 321 0987', lastVisit: '3 μέρες πριν', status: 'recurring' },
+    { id: 5, name: 'Άννα Χριστοδούλου', phone: '+30 693 654 3210', lastVisit: '5 μέρες πριν', status: 'new' },
+  ]
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-3 sm:p-4" style={{ background: '#f8fafc', height: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
