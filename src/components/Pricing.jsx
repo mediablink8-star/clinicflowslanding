@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Check, ArrowRight, Loader2, Sparkles } from 'lucide-react'
 import { useTilt } from './useEffects'
@@ -83,11 +83,50 @@ function PlanCard({ plan, index }) {
   )
 }
 
-export default function Pricing({ plans, loading }) {
+export default function Pricing() {
+  const [plans, setPlans] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [fetched, setFetched] = useState(false)
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    if (fetched) return
+    const el = sectionRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !fetched) {
+          setFetched(true)
+          setLoading(true)
+          const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://clinicflows-backend.onrender.com'
+          const controller = new AbortController()
+          const timeoutId = setTimeout(() => controller.abort(), 5000)
+          fetch(`${API_BASE}/api/public/plans`, { signal: controller.signal })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data?.success && Array.isArray(data.data) && data.data.length > 0) {
+                setPlans(data.data)
+              }
+            })
+            .catch(() => {})
+            .finally(() => {
+              clearTimeout(timeoutId)
+              setLoading(false)
+            })
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '300px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [fetched])
+
   const data = plans || fallbackPlans
 
   return (
-    <section id="pricing" className="relative py-24 sm:py-32 overflow-hidden">
+    <section ref={sectionRef} id="pricing" className="relative py-24 sm:py-32 overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-30" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
@@ -110,7 +149,7 @@ export default function Pricing({ plans, loading }) {
           </p>
         </motion.div>
 
-        {loading ? (
+        {loading && plans === null ? (
           <div className="mt-20 flex flex-col items-center gap-3">
             <Loader2 size={32} className="animate-spin text-primary" />
             <span className="text-sm text-text-muted">Φόρτωση τιμολογίων...</span>

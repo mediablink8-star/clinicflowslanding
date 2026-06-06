@@ -535,7 +535,7 @@ export default function ProductTour() {
                 className="relative"
               >
                 <div
-                  className="absolute -inset-4 rounded-3xl blur-3xl opacity-30 animate-pulse-glow"
+                   className="absolute -inset-4 rounded-3xl blur-2xl opacity-30 animate-pulse-glow"
                   style={{ background: `radial-gradient(circle, ${activeTour.color}, transparent 70%)` }}
                 />
                 <div className="relative aspect-[16/12] lg:aspect-[16/11]">

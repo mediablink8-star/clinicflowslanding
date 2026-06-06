@@ -210,7 +210,7 @@ export default function Hero() {
           className="mt-20 sm:mt-28"
         >
           <div className="relative mx-auto max-w-3xl">
-            <div className="absolute -inset-8 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-[40px] blur-3xl opacity-40 animate-pulse-glow" />
+            <div className="absolute -inset-8 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-[40px] blur-2xl opacity-40 animate-pulse-glow" />
 
             <motion.div
               animate={{ y: [0, -6, 0] }}
