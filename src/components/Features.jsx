@@ -5,7 +5,7 @@ import {
   PhoneCall, Mic, Voicemail, Sparkles, Zap, MessageCircle,
   Send, Bot, TrendingUp, LineChart, Target, Webhook, Calendar,
   Activity, Shield, Lock, KeyRound, FileBarChart, PieChart,
-  ArrowUpRight, Building2, UserCheck, Inbox, Hash
+  ArrowUpRight, Building2, UserCheck, Inbox, Hash, HardDrive
 } from 'lucide-react'
 import { useTilt } from './useEffects'
 
@@ -338,7 +338,7 @@ export default function Features() {
             End-to-end encrypted
           </span>
           <span className="flex items-center gap-2">
-            <Server size={14} className="text-primary" />
+            <HardDrive size={14} className="text-primary" />
             EU-hosted
           </span>
         </motion.div>

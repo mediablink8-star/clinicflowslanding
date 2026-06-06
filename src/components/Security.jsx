@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import {
-  Shield, Lock, KeyRound, FileText, Server, Database,
+  Shield, Lock, KeyRound, FileText, HardDrive, Database,
   Eye, Fingerprint, CheckCircle2, AlertTriangle, FileCheck
 } from 'lucide-react'
 
@@ -30,7 +30,7 @@ const securityFeatures = [
     color: '#f59e0b',
   },
   {
-    icon: Server,
+    icon: HardDrive,
     title: 'EU-Hosted Data',
     description: 'Όλα τα δεδομένα φιλοξενούνται σε EU data centers. Χωρίς μεταφορά σε τρίτες χώρες.',
     color: '#06b6d4',

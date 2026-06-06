@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
-import { Shield, Lock, Server, Award, Building2, Stethoscope, Sparkles } from 'lucide-react'
+import { Shield, Lock, HardDrive, Award, Building2, Stethoscope, Sparkles } from 'lucide-react'
 
 const trustItems = [
   { icon: Shield, label: 'GDPR Compliant' },
   { icon: Lock, label: 'End-to-end encryption' },
-  { icon: Server, label: 'EU-hosted data' },
+  { icon: HardDrive, label: 'EU-hosted data' },
   { icon: Award, label: 'ISO 27001 ready' },
   { icon: Building2, label: 'Multi-tenant SaaS' },
 ]
