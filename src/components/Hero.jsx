@@ -32,18 +32,18 @@ function Waveform() {
   )
 }
 
-function Notification({ n, x, y, delay, rotate }) {
+function Notification({ n, x, y, delay, rotate, floatDuration, floatDelay }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.6, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
       className="absolute hidden xl:block z-20"
-      style={{ left: x, top: y, rotate }}
+      style={{ left: x, top: y, transform: `rotate(${rotate})` }}
     >
       <motion.div
         animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 4 + Math.random() * 2, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: floatDuration, delay: floatDelay, repeat: Infinity, ease: 'easeInOut' }}
         className="flex items-center gap-2.5 rounded-2xl border border-white/10 bg-black/40 px-3.5 py-2.5 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-2xl"
       >
         <div
@@ -104,11 +104,11 @@ export default function Hero() {
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[180px] animate-pulse-glow" />
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] ai-orb mix-blend-screen opacity-20" />
 
-      <Notification n={liveNotifications[0]} x="3%" y="18%" delay={0.8} rotate="-4deg" />
-      <Notification n={liveNotifications[1]} x="80%" y="14%" delay={1.4} rotate="3deg" />
-      <Notification n={liveNotifications[2]} x="76%" y="48%" delay={1.8} rotate="-3deg" />
-      <Notification n={liveNotifications[3]} x="5%" y="52%" delay={1.1} rotate="4deg" />
-      <Notification n={liveNotifications[4]} x="14%" y="78%" delay={2.0} rotate="-2deg" />
+      <Notification n={liveNotifications[0]} x="3%" y="18%" delay={0.8} rotate="-4deg" floatDuration={5} floatDelay={0} />
+      <Notification n={liveNotifications[1]} x="80%" y="14%" delay={1.4} rotate="3deg" floatDuration={6} floatDelay={0.5} />
+      <Notification n={liveNotifications[2]} x="76%" y="48%" delay={1.8} rotate="-3deg" floatDuration={4.5} floatDelay={1} />
+      <Notification n={liveNotifications[3]} x="5%" y="52%" delay={1.1} rotate="4deg" floatDuration={5.5} floatDelay={1.5} />
+      <Notification n={liveNotifications[4]} x="14%" y="78%" delay={2.0} rotate="-2deg" floatDuration={4} floatDelay={2} />
 
       <motion.div
         variants={containerVariants}
