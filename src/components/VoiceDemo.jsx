@@ -271,18 +271,26 @@ function useSpeechSynthesis() {
 
   const speak = useCallback((text, rate = 0.95) => {
     if (!('speechSynthesis' in window)) return
-    window.speechSynthesis.cancel()
-    const utter = new SpeechSynthesisUtterance(text)
-    if (greekVoice) utter.voice = greekVoice
-    utter.lang = 'el-GR'
-    utter.rate = rate
-    utter.pitch = 1
-    utter.volume = 1
-    utter.onstart = () => setSpeaking(true)
-    utter.onend = () => setSpeaking(false)
-    utter.onerror = () => setSpeaking(false)
-    utteranceRef.current = utter
-    window.speechSynthesis.speak(utter)
+    try {
+      window.speechSynthesis.cancel()
+      const utter = new SpeechSynthesisUtterance(text)
+      if (greekVoice) utter.voice = greekVoice
+      utter.lang = 'el-GR'
+      utter.rate = Math.max(0.1, Math.min(10, rate))
+      utter.pitch = Math.max(0, Math.min(2, 1))
+      utter.volume = Math.max(0, Math.min(1, 1))
+      utter.onstart = () => setSpeaking(true)
+      utter.onend = () => setSpeaking(false)
+      utter.onerror = (e) => {
+        console.error('Speech synthesis error:', e)
+        setSpeaking(false)
+      }
+      utteranceRef.current = utter
+      window.speechSynthesis.speak(utter)
+    } catch (e) {
+      console.error('Speech synthesis failed:', e)
+      setSpeaking(false)
+    }
   }, [greekVoice])
 
   const cancel = useCallback(() => {
