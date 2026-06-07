@@ -250,70 +250,62 @@ function TimelineStep({ scene, index, currentStep }) {
   )
 }
 
-function useSpeechSynthesis() {
+function useElevenLabsTTS() {
   const [speaking, setSpeaking] = useState(false)
-  const [greekVoice, setGreekVoice] = useState(null)
-  const [voicesLoaded, setVoicesLoaded] = useState(false)
-  const utteranceRef = useRef(null)
+  const audioRef = useRef(null)
 
-  useEffect(() => {
-    if (!('speechSynthesis' in window)) return
-    const loadVoices = () => {
-      const voices = window.speechSynthesis.getVoices()
-      if (voices.length === 0) return
-      
-      // Prefer high-quality voices: Google, Microsoft, Apple neural voices
-      const premiumGreek = voices.find(v => 
-        (v.lang.startsWith('el') || v.lang.startsWith('gr')) && 
-        (v.name.includes('Google') || v.name.includes('Microsoft') || v.name.includes('Neural') || v.name.includes('Premium') || v.name.includes('Enhanced'))
-      )
-      const standardGreek = voices.find(v => v.lang.startsWith('el') || v.lang.startsWith('gr')) ||
-                            voices.find(v => v.name.toLowerCase().includes('greek')) ||
-                            voices.find(v => v.lang === 'el-GR')
-      
-      const bestVoice = premiumGreek || standardGreek
-      if (bestVoice) {
-        console.log('Selected Greek voice:', bestVoice.name, bestVoice.lang)
-        setGreekVoice(bestVoice)
-      }
-      setVoicesLoaded(true)
-    }
-    loadVoices()
-    window.speechSynthesis.onvoiceschanged = loadVoices
-    return () => { window.speechSynthesis.onvoiceschanged = null }
-  }, [])
-
-  const speak = useCallback((text, rate = 0.85) => {
-    if (!('speechSynthesis' in window)) return
+  const speak = useCallback(async (text) => {
+    if (!text) return
     try {
-      window.speechSynthesis.cancel()
-      const utter = new SpeechSynthesisUtterance(text)
-      if (greekVoice) utter.voice = greekVoice
-      utter.lang = 'el-GR'
-      // More natural settings: slightly slower, slightly lower pitch, full volume
-      utter.rate = Math.max(0.1, Math.min(10, rate))
-      utter.pitch = Math.max(0, Math.min(2, 0.95))
-      utter.volume = 1
-      utter.onstart = () => setSpeaking(true)
-      utter.onend = () => setSpeaking(false)
-      utter.onerror = (e) => {
-        console.error('Speech synthesis error:', e)
-        setSpeaking(false)
+      setSpeaking(true)
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
       }
-      utteranceRef.current = utter
-      window.speechSynthesis.speak(utter)
+
+      const response = await fetch('/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          text,
+          voiceId: '21m00Tcm4TlvDq8ikWAM' // Rachel - good Greek support
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('TTS request failed')
+      }
+
+      const audioBlob = await response.blob()
+      const audioUrl = URL.createObjectURL(audioBlob)
+      audioRef.current = new Audio(audioUrl)
+      audioRef.current.volume = 1
+      
+      audioRef.current.onended = () => {
+        setSpeaking(false)
+        URL.revokeObjectURL(audioUrl)
+      }
+      audioRef.current.onerror = () => {
+        setSpeaking(false)
+        URL.revokeObjectURL(audioUrl)
+      }
+      
+      await audioRef.current.play()
     } catch (e) {
-      console.error('Speech synthesis failed:', e)
+      console.error('ElevenLabs TTS error:', e)
       setSpeaking(false)
     }
-  }, [greekVoice])
+  }, [])
 
   const cancel = useCallback(() => {
-    window.speechSynthesis.cancel()
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current = null
+    }
     setSpeaking(false)
   }, [])
 
-  return { speak, cancel, speaking, voicesLoaded, greekVoice }
+  return { speak, cancel, speaking }
 }
 
 export default function VoiceDemo() {
@@ -323,7 +315,7 @@ export default function VoiceDemo() {
   const [audioEnabled, setAudioEnabled] = useState(true)
   const timerRef = useRef(null)
   const lastSpokenStepRef = useRef(-1)
-  const { speak, cancel, speaking, voicesLoaded, greekVoice } = useSpeechSynthesis()
+  const { speak, cancel, speaking } = useElevenLabsTTS()
 
   const sophiaLines = conversationFlow.filter(l => l.speaker === 'sophia')
 
@@ -331,22 +323,14 @@ export default function VoiceDemo() {
     if (playing && audioEnabled && step !== lastSpokenStepRef.current) {
       const currentLine = conversationFlow[step]
       if (currentLine && currentLine.speaker === 'sophia') {
-        if (voicesLoaded || greekVoice) {
-          speak(currentLine.text, 0.9)
-        } else {
-          // Voices not loaded yet, wait a bit and retry
-          const timeout = setTimeout(() => {
-            speak(currentLine.text, 0.9)
-          }, 100)
-          return () => clearTimeout(timeout)
-        }
+        speak(currentLine.text)
         lastSpokenStepRef.current = step
       }
     }
     if (!playing) {
       lastSpokenStepRef.current = -1
     }
-  }, [playing, step, audioEnabled, speak, voicesLoaded, greekVoice])
+  }, [playing, step, audioEnabled, speak])
 
   useEffect(() => {
     if (playing) {

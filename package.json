@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "elevenlabs": "^1.59.0",
     "framer-motion": "^12.10.0",
     "lucide-react": "^0.564.0",
     "react": "^19.2.0",
