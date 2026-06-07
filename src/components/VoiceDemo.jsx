@@ -253,16 +253,19 @@ function TimelineStep({ scene, index, currentStep }) {
 function useSpeechSynthesis() {
   const [speaking, setSpeaking] = useState(false)
   const [greekVoice, setGreekVoice] = useState(null)
+  const [voicesLoaded, setVoicesLoaded] = useState(false)
   const utteranceRef = useRef(null)
 
   useEffect(() => {
     if (!('speechSynthesis' in window)) return
     const loadVoices = () => {
       const voices = window.speechSynthesis.getVoices()
+      if (voices.length === 0) return
       const greek = voices.find(v => v.lang.startsWith('el') || v.lang.startsWith('gr')) ||
                     voices.find(v => v.name.toLowerCase().includes('greek')) ||
                     voices.find(v => v.lang === 'el-GR')
       if (greek) setGreekVoice(greek)
+      setVoicesLoaded(true)
     }
     loadVoices()
     window.speechSynthesis.onvoiceschanged = loadVoices
@@ -298,7 +301,7 @@ function useSpeechSynthesis() {
     setSpeaking(false)
   }, [])
 
-  return { speak, cancel, speaking }
+  return { speak, cancel, speaking, voicesLoaded, greekVoice }
 }
 
 export default function VoiceDemo() {
@@ -308,7 +311,7 @@ export default function VoiceDemo() {
   const [audioEnabled, setAudioEnabled] = useState(true)
   const timerRef = useRef(null)
   const lastSpokenStepRef = useRef(-1)
-  const { speak, cancel, speaking } = useSpeechSynthesis()
+  const { speak, cancel, speaking, voicesLoaded, greekVoice } = useSpeechSynthesis()
 
   const sophiaLines = conversationFlow.filter(l => l.speaker === 'sophia')
 
@@ -316,14 +319,22 @@ export default function VoiceDemo() {
     if (playing && audioEnabled && step !== lastSpokenStepRef.current) {
       const currentLine = conversationFlow[step]
       if (currentLine && currentLine.speaker === 'sophia') {
-        speak(currentLine.text, 'el-GR', 0.9)
+        if (voicesLoaded || greekVoice) {
+          speak(currentLine.text, 0.9)
+        } else {
+          // Voices not loaded yet, wait a bit and retry
+          const timeout = setTimeout(() => {
+            speak(currentLine.text, 0.9)
+          }, 100)
+          return () => clearTimeout(timeout)
+        }
         lastSpokenStepRef.current = step
       }
     }
     if (!playing) {
       lastSpokenStepRef.current = -1
     }
-  }, [playing, step, audioEnabled, speak])
+  }, [playing, step, audioEnabled, speak, voicesLoaded, greekVoice])
 
   useEffect(() => {
     if (playing) {
