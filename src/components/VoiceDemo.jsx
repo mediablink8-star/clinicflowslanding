@@ -261,10 +261,21 @@ function useSpeechSynthesis() {
     const loadVoices = () => {
       const voices = window.speechSynthesis.getVoices()
       if (voices.length === 0) return
-      const greek = voices.find(v => v.lang.startsWith('el') || v.lang.startsWith('gr')) ||
-                    voices.find(v => v.name.toLowerCase().includes('greek')) ||
-                    voices.find(v => v.lang === 'el-GR')
-      if (greek) setGreekVoice(greek)
+      
+      // Prefer high-quality voices: Google, Microsoft, Apple neural voices
+      const premiumGreek = voices.find(v => 
+        (v.lang.startsWith('el') || v.lang.startsWith('gr')) && 
+        (v.name.includes('Google') || v.name.includes('Microsoft') || v.name.includes('Neural') || v.name.includes('Premium') || v.name.includes('Enhanced'))
+      )
+      const standardGreek = voices.find(v => v.lang.startsWith('el') || v.lang.startsWith('gr')) ||
+                            voices.find(v => v.name.toLowerCase().includes('greek')) ||
+                            voices.find(v => v.lang === 'el-GR')
+      
+      const bestVoice = premiumGreek || standardGreek
+      if (bestVoice) {
+        console.log('Selected Greek voice:', bestVoice.name, bestVoice.lang)
+        setGreekVoice(bestVoice)
+      }
       setVoicesLoaded(true)
     }
     loadVoices()
@@ -272,16 +283,17 @@ function useSpeechSynthesis() {
     return () => { window.speechSynthesis.onvoiceschanged = null }
   }, [])
 
-  const speak = useCallback((text, rate = 0.95) => {
+  const speak = useCallback((text, rate = 0.85) => {
     if (!('speechSynthesis' in window)) return
     try {
       window.speechSynthesis.cancel()
       const utter = new SpeechSynthesisUtterance(text)
       if (greekVoice) utter.voice = greekVoice
       utter.lang = 'el-GR'
+      // More natural settings: slightly slower, slightly lower pitch, full volume
       utter.rate = Math.max(0.1, Math.min(10, rate))
-      utter.pitch = Math.max(0, Math.min(2, 1))
-      utter.volume = Math.max(0, Math.min(1, 1))
+      utter.pitch = Math.max(0, Math.min(2, 0.95))
+      utter.volume = 1
       utter.onstart = () => setSpeaking(true)
       utter.onend = () => setSpeaking(false)
       utter.onerror = (e) => {
