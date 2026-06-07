@@ -27,23 +27,23 @@ export default function App() {
       <Navbar />
       <Hero />
       <TrustBar />
-      <div ref={featuresRef}>
+      <div ref={featuresRef} className="cv-auto">
         <Suspense fallback={null}><Features /></Suspense>
       </div>
-      <Suspense fallback={null}><ProductTour /></Suspense>
-      <Suspense fallback={null}><VoiceDemo /></Suspense>
-      <Suspense fallback={null}><HowItWorks /></Suspense>
-      <Suspense fallback={null}><Integrations /></Suspense>
-      <Suspense fallback={null}><UseCases /></Suspense>
-      <Suspense fallback={null}><Security /></Suspense>
-      <Suspense fallback={null}><Stats /></Suspense>
-      <Suspense fallback={null}><Testimonials /></Suspense>
-      <div ref={pricingRef}>
+      <section className="cv-auto"><Suspense fallback={null}><ProductTour /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><VoiceDemo /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><HowItWorks /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><Integrations /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><UseCases /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><Security /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><Stats /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><Testimonials /></Suspense></section>
+      <div ref={pricingRef} className="cv-auto">
         <Suspense fallback={null}><Pricing /></Suspense>
       </div>
-      <Suspense fallback={null}><FAQ /></Suspense>
-      <Suspense fallback={null}><CTA /></Suspense>
-      <Suspense fallback={null}><Footer /></Suspense>
+      <section className="cv-auto"><Suspense fallback={null}><FAQ /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><CTA /></Suspense></section>
+      <section className="cv-auto"><Suspense fallback={null}><Footer /></Suspense></section>
     </div>
   )
 }

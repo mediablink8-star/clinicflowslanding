@@ -14,8 +14,19 @@ export function useMousePosition() {
 
 export function useTilt(ref, intensity = 10) {
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 })
+  const [isTouch, setIsTouch] = useState(false)
 
   useEffect(() => {
+    const checkTouch = () => {
+      setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    }
+    checkTouch()
+    window.addEventListener('resize', checkTouch, { passive: true })
+    return () => window.removeEventListener('resize', checkTouch)
+  }, [])
+
+  useEffect(() => {
+    if (isTouch) return
     const el = ref.current
     if (!el) return
 
@@ -37,7 +48,7 @@ export function useTilt(ref, intensity = 10) {
       el.removeEventListener('mousemove', handleMouse)
       el.removeEventListener('mouseleave', handleLeave)
     }
-  }, [ref, intensity])
+  }, [ref, intensity, isTouch])
 
   return tilt
 }

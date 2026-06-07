@@ -65,14 +65,23 @@ function Notification({ n, x, y, delay, rotate, floatDuration, floatDelay }) {
 
 export default function Hero() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isTouch, setIsTouch] = useState(false)
 
   useEffect(() => {
+    const checkTouch = () => setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0)
+    checkTouch()
+    window.addEventListener('resize', checkTouch, { passive: true })
+    return () => window.removeEventListener('resize', checkTouch)
+  }, [])
+
+  useEffect(() => {
+    if (isTouch) return
     const handleMouseMove = (e) => {
       setMousePos({ x: e.clientX, y: e.clientY })
     }
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
+  }, [isTouch])
 
   const containerVariants = {
     hidden: { opacity: 0 },

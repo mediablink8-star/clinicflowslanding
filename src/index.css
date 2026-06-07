@@ -567,3 +567,130 @@ body {
   .demo-root .demo-greeting { font-size: 0.95rem !important; }
   .demo-root .demo-revenue-amount { font-size: 1.6rem !important; }
 }
+
+@media (max-width: 768px) {
+  .mesh-bg::before,
+  .mesh-bg::after {
+    filter: blur(60px);
+    opacity: 0.08;
+    width: 40vmax;
+    height: 40vmax;
+  }
+  .mesh-bg {
+    animation: none;
+  }
+  .mesh-bg::before,
+  .mesh-bg::after {
+    animation: none;
+  }
+
+  .ai-orb {
+    filter: blur(30px);
+    animation: none;
+  }
+
+  .beam-effect {
+    display: none;
+  }
+
+  .grid-pattern,
+  .dots-pattern {
+    opacity: 0.1;
+  }
+
+  .glass,
+  .glass-strong,
+  .glass-light {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .blur-\[140px\],
+  .blur-\[180px\],
+  .blur-\[120px\],
+  .blur-\[2xl\] {
+    filter: blur(20px) !important;
+  }
+
+  .backdrop-blur-2xl,
+  .backdrop-blur-xl {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  .animate-pulse-glow,
+  .animate-pulse-glow-strong {
+    animation: none;
+  }
+
+  .wave-bar {
+    animation-duration: 2s;
+  }
+
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation-duration: 80s;
+  }
+
+  .phone-frame {
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      0 15px 30px -15px rgba(0, 0, 0, 0.4);
+  }
+
+  .glow-green,
+  .glow-purple,
+  .glow-violet {
+    box-shadow: none;
+  }
+
+  .shadow-\[0_30px_80px_rgba\(0,0,0,0\.5\)\],
+  .shadow-\[0_20px_50px_rgba\(0,0,0,0\.4\)\] {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .tilt-card,
+  [style*="rotateX"] {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .group:hover .tilt-card,
+  .group:hover [style*="rotateX"] {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-reverse {
+    animation: none;
+  }
+  .mesh-bg::before,
+  .mesh-bg::after {
+    animation: none;
+  }
+  .ai-orb {
+    animation: none;
+  }
+}
+
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
