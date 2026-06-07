@@ -252,13 +252,29 @@ function TimelineStep({ scene, index, currentStep }) {
 
 function useSpeechSynthesis() {
   const [speaking, setSpeaking] = useState(false)
+  const [greekVoice, setGreekVoice] = useState(null)
   const utteranceRef = useRef(null)
 
-  const speak = useCallback((text, lang = 'el-GR', rate = 0.95) => {
+  useEffect(() => {
+    if (!('speechSynthesis' in window)) return
+    const loadVoices = () => {
+      const voices = window.speechSynthesis.getVoices()
+      const greek = voices.find(v => v.lang.startsWith('el') || v.lang.startsWith('gr')) ||
+                    voices.find(v => v.name.toLowerCase().includes('greek')) ||
+                    voices.find(v => v.lang === 'el-GR')
+      if (greek) setGreekVoice(greek)
+    }
+    loadVoices()
+    window.speechSynthesis.onvoiceschanged = loadVoices
+    return () => { window.speechSynthesis.onvoiceschanged = null }
+  }, [])
+
+  const speak = useCallback((text, rate = 0.95) => {
     if (!('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()
     const utter = new SpeechSynthesisUtterance(text)
-    utter.lang = lang
+    if (greekVoice) utter.voice = greekVoice
+    utter.lang = 'el-GR'
     utter.rate = rate
     utter.pitch = 1
     utter.volume = 1
@@ -267,7 +283,7 @@ function useSpeechSynthesis() {
     utter.onerror = () => setSpeaking(false)
     utteranceRef.current = utter
     window.speechSynthesis.speak(utter)
-  }, [])
+  }, [greekVoice])
 
   const cancel = useCallback(() => {
     window.speechSynthesis.cancel()
