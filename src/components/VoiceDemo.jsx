@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Phone, PhoneCall, PhoneOff, Mic, Volume2, Sparkles, Bot, User,
   MessageSquare, CheckCircle2, Calendar, Clock, ArrowRight, Zap,
-  Play, Pause
+  Play, Pause, VolumeX
 } from 'lucide-react'
 
 const scenes = [
@@ -98,7 +98,7 @@ function PhoneFrame({ children }) {
   )
 }
 
-function CallScreen({ step, playing, onToggle, elapsed }) {
+function CallScreen({ step, playing, onToggle, elapsed, audioEnabled, onAudioToggle, speaking }) {
   return (
     <div className="p-5 bg-gradient-to-b from-[#0a0a1f] to-[#15153a] h-[520px] flex flex-col">
       <div className="flex items-center justify-between mb-4">
@@ -108,7 +108,15 @@ function CallScreen({ step, playing, onToggle, elapsed }) {
           <div className="w-2 h-2 rounded-full bg-emerald-400" />
         </div>
         <div className="text-[10px] font-mono text-white/40">live call</div>
-        <Volume2 size={12} className="text-white/40" />
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onAudioToggle}
+            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
+            aria-label={audioEnabled ? 'Μετάφραση ήχου' : 'Ενεργοποίηση ήχου'}
+          >
+            {audioEnabled ? (speaking ? <Volume2 size={14} className="text-emerald-400" /> : <Volume2 size={14} className="text-white/50" />) : <VolumeX size={14} className="text-white/30" />}
+          </button>
+        </div>
       </div>
 
       <div className="flex-1 flex flex-col">
@@ -242,11 +250,56 @@ function TimelineStep({ scene, index, currentStep }) {
   )
 }
 
+function useSpeechSynthesis() {
+  const [speaking, setSpeaking] = useState(false)
+  const utteranceRef = useRef(null)
+
+  const speak = useCallback((text, lang = 'el-GR', rate = 0.95) => {
+    if (!('speechSynthesis' in window)) return
+    window.speechSynthesis.cancel()
+    const utter = new SpeechSynthesisUtterance(text)
+    utter.lang = lang
+    utter.rate = rate
+    utter.pitch = 1
+    utter.volume = 1
+    utter.onstart = () => setSpeaking(true)
+    utter.onend = () => setSpeaking(false)
+    utter.onerror = () => setSpeaking(false)
+    utteranceRef.current = utter
+    window.speechSynthesis.speak(utter)
+  }, [])
+
+  const cancel = useCallback(() => {
+    window.speechSynthesis.cancel()
+    setSpeaking(false)
+  }, [])
+
+  return { speak, cancel, speaking }
+}
+
 export default function VoiceDemo() {
   const [step, setStep] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [elapsed, setElapsed] = useState(0)
+  const [audioEnabled, setAudioEnabled] = useState(true)
   const timerRef = useRef(null)
+  const lastSpokenStepRef = useRef(-1)
+  const { speak, cancel, speaking } = useSpeechSynthesis()
+
+  const sophiaLines = conversationFlow.filter(l => l.speaker === 'sophia')
+
+  useEffect(() => {
+    if (playing && audioEnabled && step !== lastSpokenStepRef.current) {
+      const currentLine = conversationFlow[step]
+      if (currentLine && currentLine.speaker === 'sophia') {
+        speak(currentLine.text, 'el-GR', 0.9)
+        lastSpokenStepRef.current = step
+      }
+    }
+    if (!playing) {
+      lastSpokenStepRef.current = -1
+    }
+  }, [playing, step, audioEnabled, speak])
 
   useEffect(() => {
     if (playing) {
@@ -263,9 +316,13 @@ export default function VoiceDemo() {
       }, 100)
     } else {
       clearInterval(timerRef.current)
+      cancel()
     }
-    return () => clearInterval(timerRef.current)
-  }, [playing])
+    return () => {
+      clearInterval(timerRef.current)
+      cancel()
+    }
+  }, [playing, cancel])
 
   const handleToggle = () => {
     if (!playing && step >= conversationFlow.length - 1 && elapsed > 14) {
@@ -274,6 +331,13 @@ export default function VoiceDemo() {
       setTimeout(() => setPlaying(true), 100)
     } else {
       setPlaying(!playing)
+    }
+  }
+
+  const handleAudioToggle = () => {
+    setAudioEnabled(!audioEnabled)
+    if (!audioEnabled) {
+      cancel()
     }
   }
 
@@ -310,7 +374,15 @@ export default function VoiceDemo() {
             transition={{ duration: 0.6 }}
           >
             <PhoneFrame>
-              <CallScreen step={step} playing={playing} onToggle={handleToggle} elapsed={elapsed} />
+              <CallScreen
+                step={step}
+                playing={playing}
+                onToggle={handleToggle}
+                elapsed={elapsed}
+                audioEnabled={audioEnabled}
+                onAudioToggle={handleAudioToggle}
+                speaking={speaking}
+              />
             </PhoneFrame>
           </motion.div>
 
