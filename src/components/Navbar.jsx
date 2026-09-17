@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Building2, Sparkles, ArrowUpRight } from 'lucide-react'
 
 const navLinks = [
+  { label: 'Για τον ιδιοκτήτη', href: '#owner-demo' },
   { label: 'Δυνατότητες', href: '#features' },
   { label: 'Προϊόν', href: '#product-tour' },
   { label: 'Ενσωματώσεις', href: '#integrations' },
@@ -73,7 +74,7 @@ export default function Navbar() {
             <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-md opacity-40 group-hover:opacity-70 transition-opacity" />
             <span className="relative flex items-center gap-1.5">
               <Sparkles size={13} />
-              Δωρεάν Δοκιμή
+              Δείτε το demo
               <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </span>
           </a>
@@ -118,7 +119,7 @@ export default function Navbar() {
                 href="https://clinicflows.vercel.app/register"
                 className="rounded-xl bg-gradient-to-r from-primary to-accent px-3 py-2.5 text-center text-sm font-bold text-white shadow-lg"
               >
-                Δωρεάν Δοκιμή
+                Δείτε το demo
               </a>
             </div>
           </motion.div>
