@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import TrustBar from './components/TrustBar'
 import OwnerPitch from './components/OwnerPitch'
+import ClinicCommandCenter from './components/ClinicCommandCenter'
 
 const Features = lazy(() => import('./components/Features'))
 const ProductTour = lazy(() => import('./components/ProductTour'))
@@ -29,6 +30,7 @@ export default function App() {
       <Hero />
       <TrustBar />
       <OwnerPitch />
+      <ClinicCommandCenter />
       <div ref={featuresRef} className="cv-auto">
         <Suspense fallback={null}><Features /></Suspense>
       </div>
