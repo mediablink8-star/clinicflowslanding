@@ -27,7 +27,7 @@ export default function TrustBar() {
           className="text-center mb-8"
         >
           <p className="text-sm text-text-muted">
-            <span className="text-white font-bold">2,400+ ιατρεία</span> σε όλη την Ελλάδα εμπιστεύονται το ClinicFlow
+            Μια εμπειρία που κάνει την κλινική σας να φαίνεται <span className="text-white font-bold">σύγχρονη, οργανωμένη και ανθρώπινη.</span>
           </p>
         </motion.div>
 
@@ -73,18 +73,17 @@ export default function TrustBar() {
         >
           <div className="flex items-center gap-1.5">
             <Sparkles size={11} className="text-amber-400" />
-            <span>Featured in <span className="text-white font-semibold">Startupper.gr</span></span>
+            <span>Έτοιμο για <span className="text-white font-semibold">κάθε ειδικότητα</span></span>
           </div>
           <div className="h-3 w-px bg-white/10" />
           <div className="flex items-center gap-1.5">
-            <span className="text-white font-semibold">4.9/5</span>
-            <span className="text-amber-400">★★★★★</span>
-            <span>από 240+ κριτικές</span>
+            <span className="text-white font-semibold">Μία πλατφόρμα</span>
+            <span>για όλη την ομάδα</span>
           </div>
           <div className="h-3 w-px bg-white/10" />
           <div className="flex items-center gap-1.5">
-            <span className="text-white font-semibold">99.9%</span>
-            <span>uptime SLA</span>
+            <span className="text-white font-semibold">24/7</span>
+            <span>διαθεσιμότητα για τους ασθενείς σας</span>
           </div>
         </motion.div>
       </div>
