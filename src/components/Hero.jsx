@@ -131,9 +131,9 @@ export default function Hero() {
         >
           <span className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-primary to-accent px-2.5 py-0.5 text-[11px] font-bold text-white">
             <Sparkles size={10} />
-            v2.0
+            Για σύγχρονες κλινικές
           </span>
-          <span className="text-text-muted">Η Sophia μόλις αναβαθμίστηκε</span>
+          <span className="text-text-muted">Η εμπειρία του ασθενούς, σε ένα σύστημα</span>
           <ArrowRight size={12} className="text-primary" />
         </motion.div>
 
@@ -141,9 +141,9 @@ export default function Hero() {
           variants={itemVariants}
           className="text-balance text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-black leading-[0.96] tracking-[-0.04em]"
         >
-          Η AI ρεσεψιόν <br className="hidden sm:block" />
+          Η κλινική που <br className="hidden sm:block" />
           <span className="relative inline-block">
-            <span className="shimmer-text glow-text">που δεν κοιμάται</span>
+            <span className="shimmer-text glow-text">οι ασθενείς επιλέγουν</span>
             <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" preserveAspectRatio="none" style={{ height: '12px' }}>
               <motion.path
                 d="M2 8 Q 75 2, 150 6 T 298 5"
@@ -170,20 +170,19 @@ export default function Hero() {
           variants={itemVariants}
           className="mx-auto mt-8 max-w-3xl text-lg sm:text-xl leading-relaxed text-text-muted font-light text-pretty"
         >
-          Η <span className="text-white font-semibold">Sophia</span> απαντά σε κλήσεις, στέλνει SMS και κλείνει ραντεβού 24/7.
-          Χωρίς επιπλέον προσωπικό, χωρίς αναπάντητες κλήσεις, χωρίς χαμένα έσοδα.
+          Το <span className="text-white font-semibold">ClinicFlow</span> φέρνει τις κλήσεις, τα ραντεβού και τη φροντίδα μετά την επίσκεψη σε μια εμπειρία που νιώθει άμεση και προσωπική.
         </motion.p>
 
         <motion.div
           variants={itemVariants}
           className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
         >
-          <MagneticButton href="https://clinicflows.vercel.app/register">
+          <MagneticButton href="#owner-demo">
             <span className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-2xl px-7 py-4 text-base font-bold text-white transition-all">
               <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-shimmer" />
               <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
               <span className="relative flex items-center gap-2">
-                Ξεκίνα δωρεάν για 14 μέρες
+                Δείτε το pitch για την κλινική σας
                 <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
               </span>
             </span>
@@ -191,7 +190,7 @@ export default function Hero() {
           <MagneticButton>
             <a href="#product-tour" className="group flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-7 py-4 text-base font-bold text-white backdrop-blur-xl transition-all hover:border-white/20 hover:bg-white/[0.06]">
               <Activity size={15} className="text-primary" />
-              Δες το προϊόν
+              Εξερευνήστε το προϊόν
             </a>
           </MagneticButton>
         </motion.div>
@@ -202,7 +201,7 @@ export default function Hero() {
         >
           <span className="flex items-center gap-1.5">
             <CheckCircle2 size={13} className="text-primary" />
-            Χωρίς πιστωτική κάρτα
+            Σχεδιασμένο για την ομάδα σας
           </span>
           <span className="flex items-center gap-1.5">
             <Shield size={13} className="text-primary" />
@@ -210,7 +209,7 @@ export default function Hero() {
           </span>
           <span className="flex items-center gap-1.5">
             <TrendingUp size={13} className="text-primary" />
-            Μέσος όρος 3.2x αύξηση εσόδων
+            Εμπειρία που ενισχύει την εμπιστοσύνη
           </span>
         </motion.div>
 
