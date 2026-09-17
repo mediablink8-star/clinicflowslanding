@@ -4,6 +4,7 @@ import { Menu, X, Building2, Sparkles, ArrowUpRight } from 'lucide-react'
 
 const navLinks = [
   { label: 'Για τον ιδιοκτήτη', href: '#owner-demo' },
+  { label: 'Η κλινική σε ροή', href: '#command-center' },
   { label: 'Δυνατότητες', href: '#features' },
   { label: 'Προϊόν', href: '#product-tour' },
   { label: 'Ενσωματώσεις', href: '#integrations' },
