@@ -694,3 +694,159 @@ body {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* ClinicFlow professional light system                                      */
+/* -------------------------------------------------------------------------- */
+.light-site {
+  --color-dark: #f7f9fc;
+  --color-dark-card: #ffffff;
+  --color-dark-border: #dfe5ec;
+  --color-dark-hover: #f1f5f9;
+  --color-text-muted: #64748b;
+  --color-surface: #ffffff;
+  background: #f7f9fc;
+  color: #0f172a;
+}
+
+.light-site .mesh-bg {
+  opacity: 0.35;
+}
+.light-site .mesh-bg::before,
+.light-site .mesh-bg::after {
+  opacity: 0.035;
+  filter: blur(150px);
+  animation: none;
+}
+.light-site .mesh-bg::before { background: radial-gradient(circle, #0f766e, transparent); }
+.light-site .mesh-bg::after { background: radial-gradient(circle, #2563eb, transparent); }
+
+.light-site .gradient-text {
+  background: linear-gradient(135deg, #0f766e, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.light-site .gradient-text-soft {
+  background: linear-gradient(135deg, #0f766e, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.light-site .shimmer-text {
+  background: linear-gradient(135deg, #0f766e, #2563eb);
+  background-size: auto;
+  animation: none;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.light-site .glow-text { text-shadow: none; }
+
+.light-site .glass,
+.light-site .glass-strong,
+.light-site .glass-light {
+  background: rgba(255,255,255,0.92);
+  border-color: #e2e8f0;
+  box-shadow: 0 8px 30px rgba(15,23,42,0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.light-site .premium-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 12px 35px rgba(15,23,42,0.06);
+}
+.light-site .gradient-border-card {
+  background: #ffffff;
+}
+.light-site .phone-frame {
+  background: #ffffff;
+  border-color: #dbe3ec;
+  box-shadow: 0 20px 50px rgba(15,23,42,0.10);
+}
+.light-site .phone-screen { background: #f8fafc; }
+
+.light-site [class*="bg-white/"] { background-color: rgba(248,250,252,0.92) !important; }
+.light-site [class*="bg-black/"] { background-color: rgba(241,245,249,0.78) !important; }
+.light-site [class*="border-white/"] { border-color: #e2e8f0 !important; }
+.light-site [class*="text-white/"] { color: #64748b !important; }
+.light-site [class~="text-white"] { color: #0f172a !important; }
+
+.light-site .bg-primary.text-white,
+.light-site .bg-primary [class~="text-white"],
+.light-site .bg-dark.text-white,
+.light-site .bg-dark [class~="text-white"] {
+  color: #ffffff !important;
+}
+.light-site .bg-dark { background-color: #f7f9fc !important; }
+.light-site .bg-dark-card { background-color: #ffffff !important; }
+.light-site .border-dark-border { border-color: #e2e8f0 !important; }
+
+.light-site .bg-primary {
+  background-color: #0f766e !important;
+}
+.light-site .text-primary { color: #0f766e !important; }
+.light-site .border-primary\/20 { border-color: rgba(15,118,110,.18) !important; }
+.light-site .border-primary\/30 { border-color: rgba(15,118,110,.28) !important; }
+
+.light-site .text-text-muted { color: #64748b !important; }
+.light-site .text-dark { color: #0f172a !important; }
+
+.light-site .bg-grid-large {
+  background-image:
+    linear-gradient(rgba(15,23,42,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,23,42,.035) 1px, transparent 1px);
+}
+.light-site .bg-dot-fade {
+  background-image: radial-gradient(circle, rgba(15,23,42,.10) 1px, transparent 1px);
+}
+.light-site .grid-pattern {
+  background-image:
+    linear-gradient(rgba(15,118,110,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15,118,110,.035) 1px, transparent 1px);
+}
+.light-site .dots-pattern {
+  background-image: radial-gradient(rgba(15,118,110,.08) 1px, transparent 1px);
+}
+
+.light-site .glow-green,
+.light-site .glow-purple,
+.light-site .glow-violet,
+.light-site .glow-border::before {
+  box-shadow: none;
+  filter: none;
+  opacity: 0;
+}
+.light-site .glow-border::before { display: none; }
+.light-site .beam-effect,
+.light-site .scan-line,
+.light-site .ai-orb { opacity: 0 !important; animation: none !important; }
+
+.light-site .feature-icon-bg {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+.light-site .divider-gradient {
+  background: linear-gradient(90deg, transparent, #d7dee7, transparent);
+}
+.light-site .tab-indicator {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+}
+
+.light-site a:hover,
+.light-site button:hover { transition-duration: 160ms; }
+
+.light-site .shadow-lg,
+.light-site .shadow-xl,
+.light-site .shadow-2xl { box-shadow: 0 12px 30px rgba(15,23,42,.08) !important; }
+
+.light-site .animate-shimmer,
+.light-site .animate-shimmer-bg,
+.light-site .animate-gradient-x { animation: none !important; }
+
+.light-site .noise::after { opacity: .018; mix-blend-mode: multiply; }
+
+@media (max-width: 768px) {
+  .light-site .mesh-bg::before,
+  .light-site .mesh-bg::after { opacity: .025; }
+}
