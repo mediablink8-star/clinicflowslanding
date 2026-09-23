@@ -250,57 +250,37 @@ function TimelineStep({ scene, index, currentStep }) {
   )
 }
 
-function useElevenLabsTTS() {
+function useBrowserTTS() {
   const [speaking, setSpeaking] = useState(false)
-  const audioRef = useRef(null)
 
-  const speak = useCallback(async (text) => {
-    if (!text) return
-    try {
-      setSpeaking(true)
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
-
-      const response = await fetch('/api/tts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          text,
-          voiceId: '21m00Tcm4TlvDq8ikWAM' // Rachel - good Greek support
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error('TTS request failed')
-      }
-
-      const audioBlob = await response.blob()
-      const audioUrl = URL.createObjectURL(audioBlob)
-      audioRef.current = new Audio(audioUrl)
-      audioRef.current.volume = 1
-      
-      audioRef.current.onended = () => {
-        setSpeaking(false)
-        URL.revokeObjectURL(audioUrl)
-      }
-      audioRef.current.onerror = () => {
-        setSpeaking(false)
-        URL.revokeObjectURL(audioUrl)
-      }
-      
-      await audioRef.current.play()
-    } catch (e) {
-      console.error('ElevenLabs TTS error:', e)
-      setSpeaking(false)
+  const speak = useCallback((text) => {
+    if (!text || typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      console.warn('Browser speech synthesis is not available')
+      return
     }
+
+    window.speechSynthesis.cancel()
+
+    const utterance = new SpeechSynthesisUtterance(text)
+    utterance.lang = 'el-GR'
+    utterance.rate = 0.95
+    utterance.pitch = 1
+    utterance.volume = 1
+
+    const voices = window.speechSynthesis.getVoices()
+    const greekVoice = voices.find((voice) => voice.lang?.toLowerCase().startsWith('el'))
+    if (greekVoice) utterance.voice = greekVoice
+
+    utterance.onstart = () => setSpeaking(true)
+    utterance.onend = () => setSpeaking(false)
+    utterance.onerror = () => setSpeaking(false)
+
+    window.speechSynthesis.speak(utterance)
   }, [])
 
   const cancel = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause()
-      audioRef.current = null
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel()
     }
     setSpeaking(false)
   }, [])
@@ -315,7 +295,7 @@ export default function VoiceDemo() {
   const [audioEnabled, setAudioEnabled] = useState(true)
   const timerRef = useRef(null)
   const lastSpokenStepRef = useRef(-1)
-  const { speak, cancel, speaking } = useElevenLabsTTS()
+  const { speak, cancel, speaking } = useBrowserTTS()
 
   const sophiaLines = conversationFlow.filter(l => l.speaker === 'sophia')
 
