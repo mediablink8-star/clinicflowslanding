@@ -25,7 +25,7 @@ export default function App() {
   const pricingRef = useRef(null)
 
   return (
-    <div className="min-h-screen bg-dark text-white overflow-x-hidden">
+    <div className="light-site min-h-screen bg-dark text-white overflow-x-hidden">
       <div className="mesh-bg" />
       <Navbar />
       <Hero />
