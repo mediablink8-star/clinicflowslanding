@@ -850,3 +850,39 @@ body {
   .light-site .mesh-bg::before,
   .light-site .mesh-bg::after { opacity: .025; }
 }
+
+
+/* Light theme contrast fixes for legacy dark-theme utility classes */
+.light-site [class~="text-white"],
+.light-site [class*="text-white/"] {
+  color: #0f172a !important;
+}
+
+.light-site [class*="text-white/"] {
+  color: #475569 !important;
+}
+
+.light-site [class*="bg-gradient-to"] {
+  color: #ffffff !important;
+}
+
+.light-site [class*="bg-gradient-to"] [class~="text-white"],
+.light-site [class*="bg-gradient-to"] [class*="text-white/"] {
+  color: #ffffff !important;
+}
+
+.light-site .text-dark {
+  color: #0f172a !important;
+}
+
+.light-site [class*="hover:text-white"]:hover {
+  color: #0f172a !important;
+}
+
+.light-site [class*="bg-white/"] {
+  color: #0f172a;
+}
+
+.light-site [class*="bg-black/"] {
+  color: #0f172a;
+}
