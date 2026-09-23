@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Phone, PhoneCall, PhoneOff, Mic, Volume2, Sparkles, Bot, User,
-  MessageSquare, CheckCircle2, Calendar, Clock, ArrowRight, Zap,
-  Play, Pause, VolumeX
+  Phone, PhoneCall, PhoneOff, Mic, Volume2, Bot, User,
+  MessageSquare, CheckCircle2, Calendar, Clock,
+  Play, VolumeX
 } from 'lucide-react'
 
 const scenes = [
@@ -326,8 +326,6 @@ export default function VoiceDemo() {
   const lastSpokenStepRef = useRef(-1)
   const { speak, cancel, speaking } = useBrowserTTS()
 
-  const sophiaLines = conversationFlow.filter(l => l.speaker === 'sophia')
-
   useEffect(() => {
     if (playing && audioEnabled && step !== lastSpokenStepRef.current) {
       const currentLine = conversationFlow[step]
@@ -375,10 +373,8 @@ export default function VoiceDemo() {
   }
 
   const handleAudioToggle = () => {
-    setAudioEnabled(!audioEnabled)
-    if (!audioEnabled) {
-      cancel()
-    }
+    if (audioEnabled) cancel()
+    setAudioEnabled((enabled) => !enabled)
   }
 
   return (
@@ -449,18 +445,25 @@ export default function VoiceDemo() {
               />
             ))}
 
-            <div className="mt-8 grid grid-cols-3 gap-3">
-              {[
-                { label: 'Μέσος χρόνος ανάκτησης', value: '28s', icon: Clock, color: '#10b981' },
-                { label: 'Ποσοστό επιτυχίας', value: '94%', icon: CheckCircle2, color: '#6366f1' },
-                { label: 'Κόστος / κλήση', value: '€0.12', icon: Zap, color: '#f59e0b' },
-              ].map((s) => (
-                <div key={s.label} className="rounded-xl border border-white/[0.06] bg-white/[0.02] p-3">
-                  <s.icon size={14} style={{ color: s.color }} className="mb-1.5" />
-                  <div className="text-lg font-black" style={{ color: s.color }}>{s.value}</div>
-                  <div className="text-[10px] text-text-muted leading-tight mt-0.5">{s.label}</div>
+            <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-4">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.14em] text-slate-500">
+                <CheckCircle2 size={14} className="text-emerald-600" />
+                Demo αποτέλεσμα
+              </div>
+              <div className="mt-3 grid gap-3 sm:grid-cols-3">
+                <div>
+                  <p className="text-xl font-black text-slate-950">1</p>
+                  <p className="text-[11px] text-slate-500">αναπάντητη κλήση που μπήκε σε recovery</p>
                 </div>
-              ))}
+                <div>
+                  <p className="text-xl font-black text-slate-950">1</p>
+                  <p className="text-[11px] text-slate-500">διάλογος με τη Sophia</p>
+                </div>
+                <div>
+                  <p className="text-xl font-black text-emerald-700">1</p>
+                  <p className="text-[11px] text-slate-500">ενδεικτικό κλεισμένο ραντεβού</p>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
