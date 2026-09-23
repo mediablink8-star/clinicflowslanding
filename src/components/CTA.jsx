@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles, Shield, Zap, CheckCircle2, Phone, MessageSquare, Calendar, Bot } from 'lucide-react'
 
 const promises = [
-  { icon: CheckCircle2, text: 'Setup σε 24 ώρες' },
+  { icon: CheckCircle2, text: 'Setup με τη δική σας ομάδα' },
   { icon: CheckCircle2, text: '14 μέρες δωρεάν' },
   { icon: CheckCircle2, text: 'Χωρίς πιστωτική κάρτα' },
   { icon: CheckCircle2, text: 'Ακύρωση οποτεδήποτε' },
@@ -44,15 +44,15 @@ export default function CTA() {
                 className="mb-5 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-bold text-primary"
               >
                 <Sparkles size={13} className="animate-pulse" />
-                Έτοιμος για το επόμενο βήμα;
+                Έτοιμος να το δοκιμάσετε στην κλινική;
               </motion.div>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-balance mb-5">
-                Μεταμόρφωσε το ιατρείο σου{' '}
-                <span className="gradient-text">σήμερα</span>
+                Δείτε αν το ClinicFlow ταιριάζει{' '}
+                <span className="gradient-text">στη δική σας ροή</span>
               </h2>
               <p className="text-lg text-text-muted leading-relaxed mb-8 max-w-lg">
-                Εντάξου στα 2,400+ ιατρεία που εμπιστεύονται το ClinicFlow για να ανακτήσουν χαμένα ραντεβού, να μειώσουν no-shows και να αυξήσουν τα έσοδά τους.
+                Ξεκινήστε με ένα ελεγχόμενο pilot. Ρυθμίζουμε τη ροή πάνω στη δική σας κλινική και μετράμε τι πραγματικά αλλάζει.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-3 mb-6">
@@ -63,7 +63,7 @@ export default function CTA() {
                   <span className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] animate-shimmer" />
                   <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
                   <span className="relative flex items-center gap-2">
-                    Ξεκίνα δωρεάν για 14 μέρες
+                    Ξεκίνα pilot 14 ημερών
                     <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
                   </span>
                 </a>
@@ -95,9 +95,9 @@ export default function CTA() {
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { icon: Phone, label: 'Voice AI', value: '24/7', color: '#10b981' },
-                  { icon: MessageSquare, label: 'Smart SMS', value: '100%', color: '#6366f1' },
-                  { icon: Calendar, label: 'Auto-booking', value: '94%', color: '#f59e0b' },
-                  { icon: Bot, label: 'AI Sophia', value: '∞', color: '#8b5cf6' },
+                  { icon: MessageSquare, label: 'Smart SMS', value: 'SMS', color: '#6366f1' },
+                  { icon: Calendar, label: 'Auto-booking', value: 'Booking', color: '#f59e0b' },
+                  { icon: Bot, label: 'AI Sophia', value: 'AI', color: '#8b5cf6' },
                 ].map((c, i) => (
                   <motion.div
                     key={c.label}
