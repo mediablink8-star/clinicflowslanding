@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Building2, Sparkles, ArrowUpRight } from 'lucide-react'
 
 const navLinks = [
-  { label: 'Για τον ιδιοκτήτη', href: '#owner-demo' },
+  { label: 'Pitch για γιατρό', href: '#sales-demo' },
   { label: 'Η κλινική σε ροή', href: '#command-center' },
   { label: 'Δυνατότητες', href: '#features' },
   { label: 'Προϊόν', href: '#product-tour' },
@@ -75,7 +75,7 @@ export default function Navbar() {
             <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-md opacity-40 group-hover:opacity-70 transition-opacity" />
             <span className="relative flex items-center gap-1.5">
               <Sparkles size={13} />
-              Δείτε το demo
+              Pitch 3 λεπτών
               <ArrowUpRight size={13} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </span>
           </a>

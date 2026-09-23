@@ -133,7 +133,7 @@ export default function Hero() {
             <Sparkles size={10} />
             Για σύγχρονες κλινικές
           </span>
-          <span className="text-text-muted">Η εμπειρία του ασθενούς, σε ένα σύστημα</span>
+          <span className="text-text-muted">Κλήσεις → AI → ραντεβού → follow-up</span>
           <ArrowRight size={12} className="text-primary" />
         </motion.div>
 
@@ -141,9 +141,9 @@ export default function Hero() {
           variants={itemVariants}
           className="text-balance text-5xl sm:text-6xl md:text-7xl lg:text-[88px] font-black leading-[0.96] tracking-[-0.04em]"
         >
-          Η κλινική που <br className="hidden sm:block" />
+          Μην αφήνετε μια χαμένη <br className="hidden sm:block" />
           <span className="relative inline-block">
-            <span className="shimmer-text glow-text">οι ασθενείς επιλέγουν</span>
+            <span className="shimmer-text glow-text">κλήση να γίνει χαμένος ασθενής</span>
             <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none" preserveAspectRatio="none" style={{ height: '12px' }}>
               <motion.path
                 d="M2 8 Q 75 2, 150 6 T 298 5"
@@ -170,7 +170,7 @@ export default function Hero() {
           variants={itemVariants}
           className="mx-auto mt-8 max-w-3xl text-lg sm:text-xl leading-relaxed text-text-muted font-light text-pretty"
         >
-          Το <span className="text-white font-semibold">ClinicFlow</span> φέρνει τις κλήσεις, τα ραντεβού και τη φροντίδα μετά την επίσκεψη σε μια εμπειρία που νιώθει άμεση και προσωπική.
+          Το <span className="text-white font-semibold">ClinicFlow</span> αυτοματοποιεί τις επαναλαμβανόμενες επικοινωνίες της κλινικής — από την αναπάντητη κλήση μέχρι το ραντεβού και το follow-up.
         </motion.p>
 
         <motion.div
@@ -201,15 +201,15 @@ export default function Hero() {
         >
           <span className="flex items-center gap-1.5">
             <CheckCircle2 size={13} className="text-primary" />
-            Σχεδιασμένο για την ομάδα σας
+            Φτιαγμένο για την καθημερινότητα της κλινικής
           </span>
           <span className="flex items-center gap-1.5">
             <Shield size={13} className="text-primary" />
-            GDPR compliant
+            Με έμφαση σε ασφάλεια & ιδιωτικότητα
           </span>
           <span className="flex items-center gap-1.5">
             <TrendingUp size={13} className="text-primary" />
-            Εμπειρία που ενισχύει την εμπιστοσύνη
+            Μετρήσιμη εικόνα για την ομάδα
           </span>
         </motion.div>
 
