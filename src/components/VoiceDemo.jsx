@@ -100,7 +100,7 @@ function PhoneFrame({ children }) {
 
 function CallScreen({ step, playing, onToggle, elapsed, audioEnabled, onAudioToggle, speaking }) {
   return (
-    <div className="p-5 bg-gradient-to-b from-[#0a0a1f] to-[#15153a] h-[520px] flex flex-col">
+    <div className="voice-call-screen p-5 bg-gradient-to-b from-[#0a0a1f] to-[#15153a] h-[520px] flex flex-col">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-rose-400" />
