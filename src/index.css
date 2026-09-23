@@ -886,3 +886,41 @@ body {
 .light-site [class*="bg-black/"] {
   color: #0f172a;
 }
+
+
+/* Dark product-preview surfaces inside the professional light site. */
+.light-site .hero-voice-card,
+.light-site .clinicflow-dark-demo {
+  background-color: #0b1020 !important;
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,.10) !important;
+}
+.light-site .hero-voice-card [class~="text-white"],
+.light-site .clinicflow-dark-demo [class~="text-white"] {
+  color: #ffffff !important;
+}
+.light-site .hero-voice-card [class*="text-white/"],
+.light-site .clinicflow-dark-demo [class*="text-white/"] {
+  color: rgba(255,255,255,.88) !important;
+}
+.light-site .hero-voice-card [class*="bg-black/"],
+.light-site .clinicflow-dark-demo [class*="bg-black/"] {
+  background-color: rgba(0,0,0,.30) !important;
+}
+.light-site .hero-voice-card [class*="bg-white/"],
+.light-site .clinicflow-dark-demo [class*="bg-white/"] {
+  background-color: rgba(255,255,255,.035) !important;
+}
+.light-site .hero-voice-card [class*="border-white/"],
+.light-site .clinicflow-dark-demo [class*="border-white/"] {
+  border-color: rgba(255,255,255,.08) !important;
+}
+.light-site .clinicflow-dark-demo .bg-dark {
+  background-color: #08081a !important;
+}
+.light-site .clinicflow-dark-demo .bg-dark-card {
+  background-color: #0f0f2a !important;
+}
+.light-site .clinicflow-dark-demo [class*="hover:text-white"]:hover {
+  color: #ffffff !important;
+}
