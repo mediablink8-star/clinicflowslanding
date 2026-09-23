@@ -223,7 +223,7 @@ export default function Hero() {
             <motion.div
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative rounded-3xl border border-white/10 bg-gradient-to-b from-dark-card/80 to-dark-card/40 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_30px_80px_rgba(0,0,0,0.5)]"
+              className="hero-voice-card relative rounded-3xl border border-white/10 bg-gradient-to-b from-dark-card/80 to-dark-card/40 backdrop-blur-2xl p-6 sm:p-8 shadow-[0_30px_80px_rgba(0,0,0,0.5)]"
             >
               <div className="flex flex-col items-center gap-5">
                 <div className="flex items-center gap-3">
