@@ -23,7 +23,7 @@ export default function ClinicCommandCenter() {
 
   const active = events[eventIndex]
   return (
-    <section id="command-center" className="relative overflow-hidden bg-dark py-24 sm:py-32">
+    <section id="command-center" className="clinicflow-dark-demo relative overflow-hidden bg-dark py-24 sm:py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_8%,rgba(99,102,241,.14),transparent_28%),radial-gradient(circle_at_88%_75%,rgba(16,185,129,.14),transparent_30%)]" />
       <div className="relative mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-3xl text-center">
