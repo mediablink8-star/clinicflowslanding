@@ -115,7 +115,7 @@ export default function SalesDemo() {
           <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.09] to-accent/[0.07] p-6 sm:p-8"><div className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-[0.18em]"><ShieldCheck size={15}/> 6 · THE CLOSE</div><h3 className="text-3xl font-black mt-4 leading-tight">Δεν χρειάζεται να το πιστέψετε.<br/>Ας το μετρήσουμε.</h3><p className="text-sm text-text-muted leading-relaxed mt-4">Προτείνω ένα μικρό pilot στη δική σας κλινική. Με πραγματικό workflow, σαφές scope και μετρήσιμα αποτελέσματα.</p>
             <div className="space-y-3 mt-7">{['AI receptionist για επιλεγμένες ροές','Online booking & ημερολόγιο','Υπενθυμίσεις και follow-ups','Dashboard για την ομάδα και τον ιδιοκτήτη'].map(x => <div key={x} className="flex items-center gap-2.5 text-sm"><CheckCircle2 size={15} className="text-primary"/><span>{x}</span></div>)}</div>
             <a href="#pricing" className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white text-dark px-5 py-4 font-black hover:translate-y-[-1px] transition-transform">Δείτε το pilot <ArrowRight size={16}/></a>
-            <p className="text-[11px] text-text-muted text-center mt-3">14 ημέρες δοκιμή · πρώτα ελέγχουμε τη ροή, μετά αποφασίζουμε</p>
+            <p className="text-[11px] text-text-muted text-center mt-3">14 ημέρες δωρεάν · €350 / γιατρό / μήνα μετά τη δοκιμή · 20 SMS + 30 AI calls στη δοκιμή</p>
           </div>
         </div>
       </div>
