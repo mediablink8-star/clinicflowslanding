@@ -1,121 +1,215 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, BarChart3, Bell, Calendar, Check, CheckCircle2, Clock, Phone, PhoneMissed, ShieldCheck, Sparkles, MessageSquare, Users, Workflow } from 'lucide-react'
+import {
+  ArrowRight, BarChart3, Bell, Calendar, Check, CheckCircle2,
+  Clock, MessageSquare, PhoneMissed, ShieldCheck, Sparkles, Users, Workflow
+} from 'lucide-react'
 
-const steps = [
-  { icon: PhoneMissed, title: 'Η κλήση χάνεται', text: 'Ο ασθενής καλεί ενώ η γραμματεία μιλάει με άλλον ασθενή.' },
-  { icon: Bell, title: 'ClinicFlow αντιδρά', text: 'Η AI callback/SMS ροή ξεκινά αυτόματα — χωρίς να κυνηγάει κανείς τη λίστα.' },
-  { icon: MessageSquare, title: 'Ο ασθενής απαντά', text: 'Παίρνει άμεση βοήθεια και μπορεί να συνεχίσει τη διαδικασία.' },
-  { icon: Calendar, title: 'Το ραντεβού προχωρά', text: 'Η διαθέσιμη ώρα περνά στο ημερολόγιο και η ομάδα βλέπει το αποτέλεσμα.' },
+const stages = [
+  {
+    number: '01',
+    label: 'ΤΟ ΠΡΟΒΛΗΜΑ',
+    title: 'Πού χάνεται σήμερα ο χρόνος και η ευκαιρία;',
+    description: 'Ξεκινάμε από την καθημερινότητα της κλινικής — όχι από τεχνικούς όρους.',
+    items: [
+      ['Αναπάντητες κλήσεις', 'Ο ασθενής καλεί όταν η γραμματεία είναι απασχολημένη.'],
+      ['Χειροκίνητα callbacks', 'Κάποιος πρέπει να θυμηθεί ποιον να καλέσει και πότε.'],
+      ['Booking & αλλαγές', 'Ραντεβού, επιβεβαιώσεις και αλλαγές δημιουργούν συνεχή μικροδουλειά.'],
+      ['Follow-ups', 'Μετά την επίσκεψη, πολλές ευκαιρίες επικοινωνίας μένουν για αργότερα.'],
+    ],
+  },
+  {
+    number: '02',
+    label: 'Η ΑΠΑΝΤΗΣΗ',
+    title: 'Το ClinicFlow βάζει αυτές τις εργασίες σε μία ροή.',
+    description: 'Η AI αναλαμβάνει τα επαναλαμβανόμενα βήματα και αφήνει την ομάδα να παρεμβαίνει όπου χρειάζεται.',
+    items: [
+      ['01 · Κλήση', 'Η αναπάντητη κλήση ενεργοποιεί αυτόματα την κατάλληλη ροή.'],
+      ['02 · AI / SMS', 'Ο ασθενής λαμβάνει άμεση απάντηση μέσω Voice AI ή SMS.'],
+      ['03 · Booking', 'Η διαδικασία συνεχίζει προς διαθέσιμη ώρα και ημερολόγιο.'],
+      ['04 · Follow-up', 'Υπενθυμίσεις και follow-ups γίνονται χωρίς χειροκίνητο κυνήγι.'],
+    ],
+  },
 ]
 
-const beforeItems = [
-  ['Αναπάντητη κλήση', 'Ο ασθενής περιμένει να τον πάρει κάποιος πίσω.'],
-  ['Γραμματεία', 'Κρατά σημειώσεις, callbacks και follow-ups μέσα στη μέρα.'],
-  ['Ραντεβού', 'Πολλές μικρές εργασίες γίνονται χειροκίνητα.'],
-  ['Ιδιοκτήτης', 'Δεν έχει πάντα καθαρή εικόνα για το τι χάθηκε.'],
+const liveSteps = [
+  { icon: PhoneMissed, title: 'Αναπάντητη κλήση', text: 'Η κλινική δεν προλαβαίνει να απαντήσει.' },
+  { icon: Bell, title: 'ClinicFlow ενεργοποιείται', text: 'Η σωστή ροή ξεκινά αυτόματα.' },
+  { icon: MessageSquare, title: 'Ο ασθενής εξυπηρετείται', text: 'AI Voice ή SMS συνεχίζει την επικοινωνία.' },
+  { icon: Calendar, title: 'Το ραντεβού προχωρά', text: 'Η ομάδα βλέπει το αποτέλεσμα στη ροή.' },
 ]
 
-const afterItems = [
-  ['Αναπάντητη κλήση', 'Ενεργοποιείται αυτόματη ροή ανάκτησης.'],
-  ['Γραμματεία', 'Η AI αναλαμβάνει επαναλαμβανόμενη επικοινωνία.'],
-  ['Ραντεβού', 'Booking και ημερολόγιο συνδέονται στη ροή.'],
-  ['Ιδιοκτήτης', 'Βλέπει calls, bookings και follow-ups σε ένα dashboard.'],
+const outcomes = [
+  [Workflow, 'Λιγότερη χειροκίνητη δουλειά', 'Επαναλαμβανόμενες επικοινωνίες μπαίνουν σε αυτοματισμούς.'],
+  [Calendar, 'Πιο οργανωμένο booking', 'Η διαθεσιμότητα και τα ραντεβού γίνονται μέρος της ίδιας διαδικασίας.'],
+  [Users, 'Η ομάδα κρατά τον έλεγχο', 'Οι άνθρωποι παρεμβαίνουν όταν χρειάζεται — δεν αντικαθίστανται από ένα μαύρο κουτί.'],
+  [BarChart3, 'Καθαρότερη εικόνα', 'Calls, bookings και follow-ups συγκεντρώνονται σε ένα σημείο.'],
 ]
-
-function ComparisonCard({ after }) {
-  const items = after ? afterItems : beforeItems
-  return (
-    <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className={`rounded-3xl border p-6 sm:p-8 ${after ? 'border-primary/30 bg-primary/[0.06]' : 'border-white/10 bg-white/[0.025]'}`}>
-      <div className="flex items-center justify-between mb-7">
-        <div>
-          <p className="text-xs uppercase tracking-[0.18em] text-text-muted mb-2">{after ? 'ΜΕ CLINICFLOW' : 'ΧΩΡΙΣ CLINICFLOW'}</p>
-          <h3 className="text-2xl font-black">{after ? 'Η ομάδα δουλεύει με σύστημα' : 'Η ομάδα διαχειρίζεται κάθε περίπτωση χειροκίνητα'}</h3>
-        </div>
-        {after ? <CheckCircle2 className="text-primary" size={28} /> : <Clock className="text-white/30" size={28} />}
-      </div>
-      <div className="space-y-4">
-        {items.map(([label, value]) => <div key={label} className="flex gap-3 border-t border-white/[0.06] pt-4"><div className={`mt-0.5 shrink-0 ${after ? 'text-primary' : 'text-white/30'}`}>{after ? <Check size={16}/> : <Clock size={16}/>}</div><div><p className="text-sm font-bold">{label}</p><p className="text-sm text-text-muted mt-1">{value}</p></div></div>)}
-      </div>
-    </motion.div>
-  )
-}
 
 export default function SalesDemo() {
-  const [mode, setMode] = useState('after')
+  const [stage, setStage] = useState(0)
   const [running, setRunning] = useState(false)
   const [completed, setCompleted] = useState(0)
-  const [missed, setMissed] = useState(20)
-  const [value, setValue] = useState(85)
-  const [recoveryRate, setRecoveryRate] = useState(25)
-  const recovered = Math.round(missed * recoveryRate / 100)
-  const monthlyValue = recovered * value * 4.33
 
   const runDemo = () => {
-    setRunning(true); setCompleted(0)
+    if (running) return
+    setRunning(true)
+    setCompleted(0)
     let n = 0
-    const timer = setInterval(() => { n += 1; setCompleted(n); if (n >= 4) { clearInterval(timer); setRunning(false) } }, 750)
+    const timer = setInterval(() => {
+      n += 1
+      setCompleted(n)
+      if (n >= liveSteps.length) {
+        clearInterval(timer)
+        setRunning(false)
+      }
+    }, 700)
   }
 
-  const headline = useMemo(() => mode === 'before' ? 'Πρώτα, ας δούμε το πρόβλημα χωρίς να το ωραιοποιήσουμε.' : 'Τώρα ας δούμε τι μπορεί να αυτοματοποιηθεί.', [mode])
+  const current = stages[stage]
 
   return (
-    <section id="sales-demo" className="relative py-28 sm:py-36 overflow-hidden">
+    <section id="sales-demo" className="relative overflow-hidden py-24 sm:py-32">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.025] to-transparent pointer-events-none" />
       <div className="relative mx-auto max-w-6xl px-6">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.07] px-4 py-2 text-xs font-bold text-primary mb-5"><Sparkles size={13}/> DOCTOR PITCH · 3–5 MINUTES</div>
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-balance">Δεν πουλάμε <span className="gradient-text">AI</span>.<br className="sm:hidden"/> Δείχνουμε τι αλλάζει στην κλινική.</h2>
-          <p className="mt-5 text-lg text-text-muted leading-relaxed">Ξεκίνα από μία πραγματική καθημερινή απώλεια, δείξε τη ροή live και μετά βάλε τα δικά σας νούμερα.</p>
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/[0.07] px-4 py-2 text-xs font-black tracking-wide text-primary">
+            <Sparkles size={13} /> DOCTOR PITCH · 5–7 MINUTES
+          </span>
+          <h2 className="mt-5 text-4xl font-black tracking-tight sm:text-5xl">
+            Πρώτα το πρόβλημα.<br />
+            <span className="gradient-text">Μετά η λύση. Μετά το demo.</span>
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed text-text-muted">
+            Μία καθαρή ιστορία που ένας γιατρός μπορεί να καταλάβει χωρίς να χρειάζεται να γνωρίζει τίποτα για AI ή αυτοματισμούς.
+          </p>
         </div>
 
-        <div className="flex justify-center mb-10"><div className="inline-flex rounded-2xl border border-white/10 bg-white/[0.03] p-1.5">
-          <button onClick={() => setMode('before')} className={`rounded-xl px-5 py-2.5 text-sm font-bold transition-all ${mode === 'before' ? 'bg-white/10 text-white' : 'text-text-muted'}`}>1 · Το πρόβλημα</button>
-          <button onClick={() => setMode('after')} className={`rounded-xl px-5 py-2.5 text-sm font-bold transition-all ${mode === 'after' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-text-muted'}`}>2 · Η ροή</button>
-        </div></div>
-
-        <AnimatePresence mode="wait"><motion.div key={mode} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-          <div className="mb-8 text-center"><p className="text-2xl sm:text-3xl font-black">{headline}</p></div>
-          <div className="grid lg:grid-cols-2 gap-5"><ComparisonCard after={false}/><ComparisonCard after/></div>
-        </motion.div></AnimatePresence>
-
-        <div className="mt-8 rounded-3xl border border-white/10 bg-black/20 p-5 sm:p-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 mb-8">
-            <div><p className="text-xs uppercase tracking-[0.18em] text-primary font-bold mb-2">3 · LIVE SIMULATION</p><h3 className="text-2xl font-black">«Μία χαμένη κλήση. Δείξτε μου τι γίνεται.»</h3><p className="text-sm text-text-muted mt-2">Αυτό είναι το σημείο του pitch όπου σταματάς να εξηγείς και απλώς πατάς το κουμπί.</p></div>
-            <button onClick={runDemo} disabled={running} className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-dark px-5 py-3 text-sm font-black disabled:opacity-50">{running ? 'Εκτελείται…' : '▶ Ξεκίνα τη ροή'}</button>
-          </div>
-          <div className="grid md:grid-cols-4 gap-3">{steps.map((step, i) => { const active = completed >= i + 1; const Icon = step.icon; return <motion.div key={step.title} animate={active ? { scale: [1, 1.02, 1] } : {}} className={`rounded-2xl border p-4 transition-colors ${active ? 'border-primary/40 bg-primary/[0.08]' : 'border-white/[0.07] bg-white/[0.02]'}`}>
-            <div className={`h-9 w-9 rounded-xl flex items-center justify-center mb-4 ${active ? 'bg-primary/20 text-primary' : 'bg-white/5 text-text-muted'}`}><Icon size={17}/></div><p className="font-bold text-sm">{step.title}</p><p className="text-xs text-text-muted mt-2 leading-relaxed">{step.text}</p>{active && <span className="inline-flex items-center gap-1 text-[10px] text-primary font-bold mt-3"><Check size={11}/> Ολοκληρώθηκε</span>}
-          </motion.div> })}</div>
+        <div className="mx-auto mt-10 flex max-w-3xl items-center justify-center gap-1 rounded-2xl border border-black/10 bg-black/[0.03] p-1.5 sm:gap-2">
+          {stages.map((item, index) => (
+            <button
+              key={item.number}
+              onClick={() => setStage(index)}
+              className={`flex-1 rounded-xl px-2 py-3 text-xs font-black transition-all sm:px-4 ${
+                stage === index ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-text-muted hover:text-dark'
+              }`}
+            >
+              <span className="hidden sm:inline">{item.number} · </span>{index === 0 ? 'Πρόβλημα' : 'Λύση'}
+            </button>
+          ))}
+          <a href="#command-center" className="hidden flex-1 rounded-xl px-4 py-3 text-center text-xs font-black text-text-muted hover:text-dark sm:block">
+            03 · Απόδειξη
+          </a>
+          <a href="#pricing" className="hidden flex-1 rounded-xl px-4 py-3 text-center text-xs font-black text-text-muted hover:text-dark sm:block">
+            04 · Pilot
+          </a>
         </div>
 
-        <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.025] p-6 sm:p-8">
-          <div className="flex items-start gap-4"><div className="h-11 w-11 rounded-2xl bg-accent/15 flex items-center justify-center text-accent shrink-0"><BarChart3 size={20}/></div><div><p className="text-xs uppercase tracking-[0.18em] text-text-muted">4 · ΒΑΛΕ ΤΑ ΔΙΚΑ ΣΑΣ ΝΟΥΜΕΡΑ</p><h3 className="text-2xl font-black mt-1">«Πόσες κλήσεις χάνετε; Πόσο αξίζει ένα ραντεβού;»</h3><p className="text-sm text-text-muted mt-2">Το αποτέλεσμα είναι ένα illustrative scenario — όχι υπόσχεση εσόδων.</p></div></div>
-          <div className="grid lg:grid-cols-3 gap-5 mt-8">
-            <label className="block"><span className="text-xs font-bold text-text-muted">Αναπάντητες / εβδομάδα: {missed}</span><input type="range" min="5" max="80" value={missed} onChange={e => setMissed(Number(e.target.value))} className="w-full mt-3 accent-emerald-400"/></label>
-            <label className="block"><span className="text-xs font-bold text-text-muted">Μέση αξία ραντεβού: €{value}</span><input type="range" min="30" max="300" step="5" value={value} onChange={e => setValue(Number(e.target.value))} className="w-full mt-3 accent-indigo-400"/></label>
-            <label className="block"><span className="text-xs font-bold text-text-muted">Υποθετική ανάκτηση: {recoveryRate}%</span><input type="range" min="5" max="50" step="5" value={recoveryRate} onChange={e => setRecoveryRate(Number(e.target.value))} className="w-full mt-3 accent-emerald-400"/></label>
+        <AnimatePresence mode="wait">
+          <motion.div key={stage} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }} className="mt-10">
+            <div className="mb-7 text-center">
+              <p className="text-xs font-black tracking-[0.18em] text-primary">{current.number} · {current.label}</p>
+              <h3 className="mt-2 text-3xl font-black sm:text-4xl">{current.title}</h3>
+              <p className="mx-auto mt-3 max-w-2xl text-text-muted">{current.description}</p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {current.items.map(([title, text], index) => (
+                <div key={title} className="rounded-3xl border border-black/10 bg-white/70 p-6 shadow-sm">
+                  <div className="flex gap-4">
+                    <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-xs font-black text-primary">{stage === 0 ? '!' : title.split(' · ')[0]}</span>
+                    <div>
+                      <p className="font-black">{stage === 0 ? title : title.replace(/^\d+ · /, '')}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-text-muted">{text}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="mt-10 rounded-[28px] border border-black/10 bg-white/80 p-5 shadow-xl sm:p-8">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="text-xs font-black tracking-[0.18em] text-primary">03 · LIVE PROOF</p>
+              <h3 className="mt-2 text-2xl font-black sm:text-3xl">«Δείξτε μου τι γίνεται όταν χάνω μία κλήση.»</h3>
+              <p className="mt-2 text-sm text-text-muted">Εδώ σταματάμε να εξηγούμε και δείχνουμε τη ροή.</p>
+            </div>
+            <button onClick={runDemo} disabled={running} className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-dark px-5 py-3.5 text-sm font-black text-white disabled:opacity-50">
+              {running ? 'Η ροή εκτελείται…' : '▶ Ξεκίνα το demo'}
+            </button>
           </div>
-          <div className="mt-7 grid sm:grid-cols-3 gap-3">
-            <div className="rounded-2xl bg-white/[0.04] p-4"><p className="text-xs text-text-muted">Σενάριο ανάκτησης</p><p className="text-2xl font-black mt-1">{recovered}</p><p className="text-[11px] text-text-muted">ραντεβού / εβδομάδα</p></div>
-            <div className="rounded-2xl bg-white/[0.04] p-4"><p className="text-xs text-text-muted">Illustrative / εβδομάδα</p><p className="text-2xl font-black mt-1">€{(recovered * value).toLocaleString()}</p><p className="text-[11px] text-text-muted">δυνητική αξία</p></div>
-            <div className="rounded-2xl bg-primary/10 border border-primary/20 p-4"><p className="text-xs text-primary">Illustrative / μήνα</p><p className="text-2xl font-black mt-1 text-primary">€{Math.round(monthlyValue).toLocaleString()}</p><p className="text-[11px] text-text-muted">4.33 εβδομάδες</p></div>
+
+          <div className="mt-7 grid gap-3 md:grid-cols-4">
+            {liveSteps.map((item, index) => {
+              const Icon = item.icon
+              const active = completed >= index + 1
+              return (
+                <motion.div key={item.title} animate={active ? { scale: [1, 1.02, 1] } : {}} className={`rounded-2xl border p-4 transition-all ${
+                  active ? 'border-primary/30 bg-primary/[0.07]' : 'border-black/10 bg-black/[0.02]'
+                }`}>
+                  <div className={`mb-4 grid h-9 w-9 place-items-center rounded-xl ${
+                    active ? 'bg-primary/15 text-primary' : 'bg-black/[0.04] text-text-muted'
+                  }`}><Icon size={17} /></div>
+                  <p className="text-sm font-black">{item.title}</p>
+                  <p className="mt-2 text-xs leading-relaxed text-text-muted">{item.text}</p>
+                  {active && <span className="mt-3 inline-flex items-center gap-1 text-[10px] font-black text-primary"><Check size={11}/> Ολοκληρώθηκε</span>}
+                </motion.div>
+              )
+            })}
           </div>
         </div>
 
-        <div className="mt-8 grid lg:grid-cols-[1.05fr_.95fr] gap-5">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-6 sm:p-8"><p className="text-xs uppercase tracking-[0.18em] text-primary font-bold">5 · ΤΙ ΘΑ ΕΛΕΓΧΑ ΠΡΙΝ ΑΠΟ ΑΓΟΡΑ</p><h3 className="text-2xl font-black mt-2">Ας το δοκιμάσουμε πάνω στο δικό σας workflow.</h3>
-            <div className="grid sm:grid-cols-2 gap-3 mt-6">{[
-              [Phone, 'Πραγματικές κλήσεις', 'Τι γίνεται όταν δεν προλαβαίνει η γραμματεία?'],
-              [Calendar, 'Πραγματικό ημερολόγιο', 'Πώς αποφεύγουμε διπλοκρατήσεις?'],
-              [Workflow, 'Πραγματικά follow-ups', 'Τι μπορεί να αυτοματοποιηθεί με ασφάλεια?'],
-              [Users, 'Πραγματική ομάδα', 'Ποιος βλέπει τι και ποιος παρεμβαίνει?'],
-            ].map(([Icon,title,text]) => <div key={title} className="rounded-2xl border border-white/[0.06] bg-black/10 p-4"><Icon size={17} className="text-primary mb-3"/><p className="font-bold text-sm">{title}</p><p className="text-xs text-text-muted mt-1 leading-relaxed">{text}</p></div>)}</div>
+        <div className="mt-10">
+          <div className="text-center">
+            <p className="text-xs font-black tracking-[0.18em] text-primary">ΤΙ ΑΛΛΟ ΑΥΤΟΜΑΤΟΠΟΙΕΙΤΑΙ</p>
+            <h3 className="mt-2 text-3xl font-black">Από το τηλέφωνο μέχρι το follow-up.</h3>
           </div>
-          <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.09] to-accent/[0.07] p-6 sm:p-8"><div className="flex items-center gap-2 text-primary text-xs font-bold uppercase tracking-[0.18em]"><ShieldCheck size={15}/> 6 · THE CLOSE</div><h3 className="text-3xl font-black mt-4 leading-tight">Δεν χρειάζεται να το πιστέψετε.<br/>Ας το μετρήσουμε.</h3><p className="text-sm text-text-muted leading-relaxed mt-4">Προτείνω ένα μικρό pilot στη δική σας κλινική. Με πραγματικό workflow, σαφές scope και μετρήσιμα αποτελέσματα.</p>
-            <div className="space-y-3 mt-7">{['AI receptionist για επιλεγμένες ροές','Online booking & ημερολόγιο','Υπενθυμίσεις και follow-ups','Dashboard για την ομάδα και τον ιδιοκτήτη'].map(x => <div key={x} className="flex items-center gap-2.5 text-sm"><CheckCircle2 size={15} className="text-primary"/><span>{x}</span></div>)}</div>
-            <a href="#pricing" className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-white text-dark px-5 py-4 font-black hover:translate-y-[-1px] transition-transform">Δείτε το pilot <ArrowRight size={16}/></a>
-            <p className="text-[11px] text-text-muted text-center mt-3">14 ημέρες δωρεάν · €350 / γιατρό / μήνα μετά τη δοκιμή · 20 SMS + 30 AI calls στη δοκιμή</p>
+          <div className="mt-7 grid gap-4 sm:grid-cols-2">
+            {outcomes.map(([Icon, title, text]) => (
+              <div key={title} className="rounded-3xl border border-black/10 bg-white/70 p-6">
+                <Icon size={20} className="text-primary" />
+                <p className="mt-4 font-black">{title}</p>
+                <p className="mt-2 text-sm leading-relaxed text-text-muted">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
+          <div className="rounded-3xl border border-black/10 bg-white/70 p-6 sm:p-8">
+            <p className="text-xs font-black tracking-[0.18em] text-primary">04 · ΠΡΙΝ ΑΠΟ ΤΟ PILOT</p>
+            <h3 className="mt-2 text-2xl font-black">Δεν ζητάμε να αλλάξετε όλη την κλινική σας.</h3>
+            <p className="mt-3 text-sm leading-relaxed text-text-muted">Ξεκινάμε με μία συγκεκριμένη ροή, τη συνδέουμε με το υπάρχον workflow και μετράμε τι πραγματικά συμβαίνει.</p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+              {[
+                [PhoneMissed, '1 κρίσιμη ροή', 'π.χ. αναπάντητες κλήσεις'],
+                [Calendar, '1 ημερολόγιο', 'με σαφείς κανόνες booking'],
+                [Users, '1 ομάδα', 'με ξεκάθαρο human handoff'],
+                [BarChart3, '1 dashboard', 'για να βλέπετε τι συνέβη'],
+              ].map(([Icon, title, text]) => (
+                <div key={title} className="flex gap-3 rounded-2xl border border-black/10 bg-white p-4">
+                  <Icon size={17} className="mt-0.5 shrink-0 text-primary" />
+                  <div><p className="text-sm font-black">{title}</p><p className="mt-1 text-xs text-text-muted">{text}</p></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/[0.10] to-accent/[0.08] p-6 sm:p-8">
+            <div className="flex items-center gap-2 text-xs font-black tracking-[0.18em] text-primary"><ShieldCheck size={15}/> 05 · ΕΠΟΜΕΝΟ ΒΗΜΑ</div>
+            <h3 className="mt-4 text-3xl font-black leading-tight">Ας το δοκιμάσουμε στην πραγματική ροή σας.</h3>
+            <p className="mt-4 text-sm leading-relaxed text-text-muted">14 ημέρες δωρεάν. Ξεκινάμε με συγκεκριμένο scope και βλέπουμε μαζί αν το ClinicFlow ταιριάζει στην κλινική.</p>
+            <div className="mt-6 space-y-3">
+              {['AI receptionist & missed-call recovery', 'Online booking & ημερολόγιο', 'Υπενθυμίσεις & follow-ups', 'Dashboard για ομάδα και ιδιοκτήτη'].map(item => (
+                <div key={item} className="flex items-center gap-2.5 text-sm font-semibold"><CheckCircle2 size={15} className="text-primary"/>{item}</div>
+              ))}
+            </div>
+            <a href="#pricing" className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-dark px-5 py-4 font-black text-white transition-transform hover:-translate-y-0.5">
+              Δείτε τα πακέτα <ArrowRight size={16}/>
+            </a>
+            <p className="mt-3 text-center text-[11px] text-text-muted">14 ημέρες δωρεάν · €350 / γιατρό / μήνα μετά τη δοκιμή · 20 SMS + 30 AI calls στη δοκιμή</p>
           </div>
         </div>
       </div>
