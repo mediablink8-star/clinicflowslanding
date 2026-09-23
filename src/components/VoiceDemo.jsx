@@ -23,7 +23,7 @@ const scenes = [
     description: 'Αυτόματη ανάλυση κλήσης και έναρξη recovery',
     icon: Bot,
     color: '#8b5cf6',
-    detail: 'Ανάκτηση σε 12 δευτερόλεπτα',
+    detail: 'Αυτόματη ανάκτηση',
   },
   {
     id: 'call-back',
@@ -41,7 +41,7 @@ const scenes = [
     description: 'Η Sophia μιλάει ελληνικά, κατανοεί πρόθεση και κλείνει ραντεβού',
     icon: MessageSquare,
     color: '#10b981',
-    detail: '2:14 διάρκεια',
+    detail: 'Demo conversation',
   },
   {
     id: 'booked',
@@ -50,18 +50,18 @@ const scenes = [
     description: 'Αυτόματη καταχώρηση, επιβεβαίωση SMS και email',
     icon: CheckCircle2,
     color: '#10b981',
-    detail: '12 Ιουνίου, 16:00 · €95 revenue',
+    detail: 'Πέμπτη, 16:00 · ενδεικτικό',
   },
 ]
 
 const conversationFlow = [
-  { speaker: 'sophia', text: 'Καλησπέρα, λέγομαι Sophia. Είδα ότι μας καλέσατε.', delay: 0 },
-  { speaker: 'patient', text: 'Ναι, ήθελα ραντεβού για καθαρισμό.', delay: 2200 },
-  { speaker: 'sophia', text: 'Φυσικά. Έχω Τετάρτη 10:30 ή Πέμπτη 16:00. Ποια σας βολεύει;', delay: 4200 },
-  { speaker: 'patient', text: 'Πέμπτη στις 4.', delay: 7500 },
-  { speaker: 'sophia', text: 'Σας κλείνω Πέμπτη 12 Ιουνίου στις 16:00. Θα στείλω SMS επιβεβαίωσης.', delay: 9000 },
-  { speaker: 'patient', text: 'Ευχαριστώ πολύ!', delay: 12500 },
-  { speaker: 'sophia', text: 'Ευχαρίστως, καλό απόγευμα!', delay: 13500 },
+  { speaker: 'sophia', text: 'Καλησπέρα! Είμαι η Sophia από την κλινική. Είδα ότι μας καλέσατε πριν λίγο.', delay: 0 },
+  { speaker: 'patient', text: 'Ναι, ήθελα να κλείσω ένα ραντεβού για καθαρισμό.', delay: 2500 },
+  { speaker: 'sophia', text: 'Βεβαίως, κανένα πρόβλημα. Έχω Τετάρτη στις δέκα και μισή ή Πέμπτη στις τέσσερις. Τι σας εξυπηρετεί περισσότερο;', delay: 4700 },
+  { speaker: 'patient', text: 'Η Πέμπτη στις τέσσερις είναι μια χαρά.', delay: 7900 },
+  { speaker: 'sophia', text: 'Τέλεια, το έχω. Σας κλείνω λοιπόν για Πέμπτη στις τέσσερις. Θα σας έρθει και ένα SMS με την επιβεβαίωση.', delay: 9600 },
+  { speaker: 'patient', text: 'Τέλεια, ευχαριστώ πολύ!', delay: 13000 },
+  { speaker: 'sophia', text: 'Παρακαλώ! Χαίρομαι που σας εξυπηρέτησα. Καλό απόγευμα!', delay: 14100 },
 ]
 
 function Waveform({ playing, color = '#10b981' }) {
@@ -253,6 +253,16 @@ function TimelineStep({ scene, index, currentStep }) {
 function useBrowserTTS() {
   const [speaking, setSpeaking] = useState(false)
 
+  const pickGreekVoice = useCallback(() => {
+    const voices = window.speechSynthesis.getVoices()
+      .filter((voice) => voice.lang?.toLowerCase().startsWith('el'))
+
+    // Prefer a local/premium Greek voice when the browser exposes one.
+    return voices.find((voice) => /premium|enhanced|natural|google/i.test(voice.name))
+      || voices.find((voice) => /google/i.test(voice.name))
+      || voices[0]
+  }, [])
+
   const speak = useCallback((text) => {
     if (!text || typeof window === 'undefined' || !('speechSynthesis' in window)) {
       console.warn('Browser speech synthesis is not available')
@@ -261,22 +271,41 @@ function useBrowserTTS() {
 
     window.speechSynthesis.cancel()
 
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'el-GR'
-    utterance.rate = 0.95
-    utterance.pitch = 1
-    utterance.volume = 1
+    const voice = pickGreekVoice()
+    const parts = text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map((part) => part.trim()).filter(Boolean) || [text]
+    let index = 0
+    let stopped = false
 
-    const voices = window.speechSynthesis.getVoices()
-    const greekVoice = voices.find((voice) => voice.lang?.toLowerCase().startsWith('el'))
-    if (greekVoice) utterance.voice = greekVoice
+    const speakNext = () => {
+      if (stopped || index >= parts.length) {
+        if (!stopped) setSpeaking(false)
+        return
+      }
 
-    utterance.onstart = () => setSpeaking(true)
-    utterance.onend = () => setSpeaking(false)
-    utterance.onerror = () => setSpeaking(false)
+      const utterance = new SpeechSynthesisUtterance(parts[index])
+      utterance.lang = 'el-GR'
+      utterance.rate = index % 2 === 0 ? 0.88 : 0.92
+      utterance.pitch = 0.98
+      utterance.volume = 1
+      if (voice) utterance.voice = voice
 
-    window.speechSynthesis.speak(utterance)
-  }, [])
+      utterance.onstart = () => setSpeaking(true)
+      utterance.onend = () => {
+        index += 1
+        if (!stopped) window.setTimeout(speakNext, 140)
+      }
+      utterance.onerror = () => {
+        stopped = true
+        setSpeaking(false)
+      }
+
+      window.speechSynthesis.speak(utterance)
+    }
+
+    // A tiny conversational lead-in prevents the browser voice from sounding like
+    // one uninterrupted block of synthesized text.
+    window.setTimeout(speakNext, 80)
+  }, [pickGreekVoice])
 
   const cancel = useCallback(() => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
