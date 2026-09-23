@@ -23,24 +23,26 @@ export default function App() {
       <div className="mesh-bg" />
       <Navbar />
 
-      {/* 1. Promise: make the value obvious immediately */}
+      {/* 1. Promise: the owner understands the value immediately */}
       <Hero />
 
-      {/* 2. Sales story: pain → solution → live proof → pilot */}
+      {/* 2. Core sales story: pain → automation → measurable workflow → pilot */}
       <SalesDemo />
 
-      {/* 3. Proof: show what the owner actually gets */}
+      {/* 3. Interactive voice proof: hear the product after understanding the use case */}
+      <section className="cv-auto"><Suspense fallback={null}><VoiceDemo /></Suspense></section>
+
+      {/* 4. Broader product proof: owner/team command center */}
       <ClinicCommandCenter />
 
-      {/* 4. Product depth, only after the business case is clear */}
+      {/* 5. Supporting product evidence */}
       <section className="cv-auto"><Suspense fallback={null}><Features /></Suspense></section>
       <section className="cv-auto"><Suspense fallback={null}><ProductTour /></Suspense></section>
-      <section className="cv-auto"><Suspense fallback={null}><VoiceDemo /></Suspense></section>
       <section className="cv-auto"><Suspense fallback={null}><HowItWorks /></Suspense></section>
       <section className="cv-auto"><Suspense fallback={null}><Integrations /></Suspense></section>
       <section className="cv-auto"><Suspense fallback={null}><Security /></Suspense></section>
 
-      {/* 5. Commercial decision */}
+      {/* 6. Commercial decision */}
       <div ref={pricingRef} className="cv-auto"><Suspense fallback={null}><Pricing /></Suspense></div>
       <section className="cv-auto"><Suspense fallback={null}><FAQ /></Suspense></section>
       <section className="cv-auto"><Suspense fallback={null}><CTA /></Suspense></section>
