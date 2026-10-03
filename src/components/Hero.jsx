@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, PhoneMissed, CalendarCheck2, Clock3 } from 'lucide-react'
+import Tilt from './Tilt'
+import { useReducedMotion } from './useTilt'
 
 const REGISTER_URL = 'https://clinicflows.vercel.app/register'
 
@@ -37,6 +39,17 @@ const toneClass = {
 }
 
 export default function Hero() {
+  const reduced = useReducedMotion()
+
+  const rise = (delay) =>
+    reduced
+      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.3 } }
+      : {
+          initial: { opacity: 0, y: 16 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.5, delay },
+        }
+
   return (
     <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24">
       <div className="pointer-events-none absolute inset-0 rule-grid rule-grid-fade opacity-70" aria-hidden="true" />
@@ -44,18 +57,14 @@ export default function Hero() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
         <div>
           <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45 }}
+            {...rise(0)}
             className="eyebrow"
           >
             Για ιατρεία και κλινικές
           </motion.p>
 
           <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.06 }}
+            {...rise(0.06)}
             className="mt-5 text-[2.5rem] leading-[1.06] sm:text-[3.25rem] lg:text-[3.5rem]"
           >
             Κάθε ασθενής που σας
@@ -64,9 +73,7 @@ export default function Hero() {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.12 }}
+            {...rise(0.12)}
             className="mt-7 max-w-[34rem] text-[1.0625rem] leading-relaxed text-ink-2"
           >
             Το ClinicFlow παρακολουθεί τις κλήσεις και τα μηνύματα, ανακτά ό,τι χάθηκε,
@@ -75,9 +82,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.18 }}
+            {...rise(0.18)}
             className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
           >
             <a
@@ -96,9 +101,7 @@ export default function Hero() {
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.26 }}
+            {...rise(0.26)}
             className="mt-7 text-[0.8125rem] leading-relaxed text-ink-3"
           >
             Χωρίς εγκατάσταση στον υπολογιστή σας. Χωρίς αλλαγή στο σύστημα που
@@ -107,12 +110,10 @@ export default function Hero() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          {...rise(0.2)}
           className="relative"
         >
-          <div className="panel overflow-hidden shadow-[0_1px_2px_rgba(13,14,16,0.04),0_12px_32px_-12px_rgba(13,14,16,0.10)]">
+          <Tilt max={5} scale={1.008} className="panel overflow-hidden">
             <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
               <div className="flex items-center gap-2.5">
                 <span className="relative flex h-1.5 w-1.5">
@@ -129,9 +130,11 @@ export default function Hero() {
               {day.map((item, i) => (
                 <motion.li
                   key={item.time}
-                  initial={{ opacity: 0, x: -8 }}
+                  initial={reduced ? { opacity: 0 } : { opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: 0.35 + i * 0.09 }}
+                  transition={
+                    reduced ? { duration: 0.25 } : { duration: 0.4, delay: 0.35 + i * 0.09 }
+                  }
                   className="flex items-start gap-4 px-5 py-3.5"
                 >
                   <span data-numeric className="w-11 shrink-0 pt-px text-[0.8125rem] text-ink-4">
@@ -167,7 +170,7 @@ export default function Hero() {
                 </div>
               ))}
             </div>
-          </div>
+          </Tilt>
 
           <p className="mt-4 text-center text-[0.8125rem] text-ink-4 lg:text-left">
             Η μέρα του γραφείου, όπως τη βλέπει η ομάδα σας.

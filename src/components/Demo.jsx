@@ -222,6 +222,7 @@ export default function Demo() {
   const [step, setStep] = useState(0)
   const [playing, setPlaying] = useState(false)
   const phoneRef = useRef(null)
+  const rootRef = useRef(null)
 
   const scenario = scenarios[index]
   const finished = step >= scenario.steps.length
@@ -267,8 +268,43 @@ export default function Demo() {
     setPlaying((p) => !p)
   }
 
+  const stepTo = (n) => {
+    setPlaying(false)
+    setStep(Math.max(0, Math.min(n, scenario.steps.length)))
+  }
+
+  // Presenting shortcuts: Space runs/pauses, arrows scrub, R resets.
+  // Bound to the section so the page's other number-key handler does not
+  // fight with it while someone is mid-sentence on the demo.
+  useEffect(() => {
+    const node = rootRef.current
+    if (!node) return
+
+    const onKey = (event) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+      const tag = event.target?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
+
+      if (event.key === ' ') {
+        event.preventDefault()
+        toggle()
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        stepTo(step + 1)
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        stepTo(step - 1)
+      } else if (event.key.toLowerCase() === 'r') {
+        reset()
+      }
+    }
+
+    node.addEventListener('keydown', onKey)
+    return () => node.removeEventListener('keydown', onKey)
+  })
+
   return (
-    <section id="demo" className="border-t border-line bg-surface py-20 sm:py-28">
+    <section id="demo" ref={rootRef} className="border-t border-line bg-surface py-20 sm:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="max-w-2xl">
           <p className="eyebrow">Ζωντανή επίδειξη</p>
@@ -483,10 +519,18 @@ export default function Demo() {
               ))}
             </div>
 
-            <p className={`text-[0.8125rem] ${finished ? 'text-primary' : 'text-ink-4'}`}>
-              {finished ? 'Η ροή ολοκληρώθηκε' : `Βήμα ${Math.min(step + 1, scenario.steps.length)} από ${scenario.steps.length}`}
+<p className={`text-[0.8125rem] ${finished ? 'text-primary' : 'text-ink-4'}`}>
+              {finished
+                ? 'Η ροή ολοκληρώθηκε'
+                : `Βήμα ${Math.min(step + 1, scenario.steps.length)} από ${scenario.steps.length}`}
             </p>
           </div>
+
+          <p className="border-t border-line-2 px-5 py-2.5 text-[0.75rem] text-ink-4">
+            Συντομεύσεις: <kbd className="font-sans">Space</kbd> εκτέλεση/παύση ·{' '}
+            <kbd className="font-sans">←</kbd> <kbd className="font-sans">→</kbd> βήμα πίσω/μπροστά ·{' '}
+            <kbd className="font-sans">R</kbd> επαναφορά
+          </p>
         </div>
       </div>
     </section>

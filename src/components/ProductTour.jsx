@@ -14,6 +14,8 @@ import {
   Volume2,
 } from 'lucide-react'
 import { useSpeech } from './useSpeech'
+import Tilt from './Tilt'
+import { useReducedMotion } from './useTilt'
 
 /* ------------------------------------------------------------------ *
  * Screen 1 — Recovery feed
@@ -465,7 +467,25 @@ const screens = [
 
 export default function ProductTour() {
   const [active, setActive] = useState(0)
+  const reduced = useReducedMotion()
   const Current = screens[active].render
+
+  // Number keys jump straight to a screen — useful when driving the page
+  // live in front of a clinic owner.
+  useEffect(() => {
+    const onKey = (event) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+      const tag = event.target?.tagName
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return
+
+      const index = Number(event.key) - 1
+      if (Number.isInteger(index) && index >= 0 && index < screens.length) {
+        setActive(index)
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   return (
     <section id="product" className="border-t border-line bg-surface py-20 sm:py-28">
@@ -485,14 +505,15 @@ export default function ProductTour() {
           {/* Screen picker */}
           <div className="grid grid-cols-2 gap-px self-end bg-line lg:grid-cols-4">
             {screens.map((screen, i) => (
-              <button
+              <motion.button
                 key={screen.id}
                 type="button"
                 onClick={() => setActive(i)}
                 aria-pressed={active === i}
-                className={`group bg-surface px-4 py-4 text-left transition-colors ${
-                  active === i ? '' : 'hover:bg-surface-2'
-                }`}
+                whileHover={reduced ? undefined : { y: -3 }}
+                whileTap={reduced ? undefined : { scale: 0.985, y: 0 }}
+                transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+                className={`group bg-surface px-4 py-4 text-left ${active === i ? '' : 'hover:bg-surface-2'}`}
               >
                 <span
                   data-numeric
@@ -512,7 +533,7 @@ export default function ProductTour() {
                     active === i ? 'bg-primary' : 'bg-line group-hover:bg-ink-4'
                   }`}
                 />
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
@@ -550,7 +571,7 @@ export default function ProductTour() {
           </div>
 
           {/* The screen itself */}
-          <div className="panel overflow-hidden shadow-[0_1px_2px_rgba(13,14,16,0.04),0_16px_40px_-16px_rgba(13,14,16,0.12)]">
+          <Tilt max={6} scale={1.01} className="panel overflow-hidden">
             <div className="flex items-center gap-1.5 border-b border-line bg-surface-2 px-5 py-2.5">
               <span className="h-1.5 w-1.5 rounded-full bg-line" />
               <span className="h-1.5 w-1.5 rounded-full bg-line" />
@@ -571,7 +592,7 @@ export default function ProductTour() {
                 <Current />
               </motion.div>
             </AnimatePresence>
-          </div>
+          </Tilt>
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+@import "./fonts.css";
 @import "tailwindcss";
 
 @theme {
@@ -142,6 +143,74 @@
   /* Slow shimmer for the "live" dot on active call screens */
   .pulse-live {
     animation: pulse-live 2s ease-in-out infinite;
+  }
+
+  /* ---- 3D depth -------------------------------------------------- *
+   * CSS-only so there is no WebGL context to lose on a venue machine.
+   * The parent owns the perspective; children live in 3D space.       */
+
+  .stage {
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+  }
+
+  .tiltable {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Pointer-driven tilt writes transform every frame, so drop the
+     transition while engaged or the panel lags behind the cursor. */
+  .tiltable.is-engaged {
+    transition: transform 60ms linear;
+  }
+
+  /* Specular highlight that tracks the pointer */
+  .glare {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: var(--glare-o, 0);
+    background: radial-gradient(
+      22rem circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      rgba(255, 255, 255, 0.55),
+      transparent 62%
+    );
+    mix-blend-mode: overlay;
+    transition: opacity 260ms ease;
+  }
+
+  /* Floating depth layers inside a 3D scene */
+  .depth-1 {
+    transform: translateZ(28px);
+  }
+  .depth-2 {
+    transform: translateZ(56px);
+  }
+  .depth-neg {
+    transform: translateZ(-28px);
+  }
+
+  /* Edge highlight that sells the panel as a physical surface */
+  .edge-light {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 1px 2px rgba(13, 14, 16, 0.04),
+      0 24px 48px -24px rgba(13, 14, 16, 0.18);
+  }
+
+  /* Hover lift used on interactive cards */
+  .lift {
+    transition:
+      transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 260ms ease;
+  }
+
+  .lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1px 2px rgba(13, 14, 16, 0.04), 0 18px 36px -20px rgba(13, 14, 16, 0.22);
   }
 }
 
