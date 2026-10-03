@@ -1,105 +1,186 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Calendar, CheckCircle2, Clock3, MessageSquare, Phone, ShieldCheck, Users, Bot } from 'lucide-react'
+import { ArrowRight, PhoneMissed, CalendarCheck2, Clock3 } from 'lucide-react'
 
-const flow = [
-  { icon: Phone, label: 'Αναπάντητη κλήση', value: '13:42', tone: 'rose' },
-  { icon: Bot, label: 'AI callback', value: 'Αυτόματα', tone: 'indigo' },
-  { icon: Calendar, label: 'Ραντεβού', value: 'Πέμπτη · 16:00', tone: 'emerald' },
+const REGISTER_URL = 'https://clinicflows.vercel.app/register'
+
+const day = [
+  {
+    time: '09:10',
+    title: 'Επιβεβαίωση επίσκεψης',
+    detail: 'Σταύρος Π. · Καρδιολογία',
+    tone: 'muted',
+  },
+  {
+    time: '13:42',
+    title: 'Αναπάντητη κλήση',
+    detail: 'Ανακτήθηκε αυτόματα σε 1:24',
+    tone: 'alert',
+  },
+  {
+    time: '13:44',
+    title: 'Ραντεβού κλείσμένο',
+    detail: 'Μαρία Π. · Πέμπτη 16:00',
+    tone: 'live',
+  },
+  {
+    time: '16:00',
+    title: 'Υπενθύμιση στάλθηκε',
+    detail: '24 ώρες πριν την επίσκεψη',
+    tone: 'muted',
+  },
 ]
 
-const toneClasses = {
-  rose: 'bg-rose-50 text-rose-600',
-  indigo: 'bg-indigo-50 text-indigo-600',
-  emerald: 'bg-emerald-50 text-emerald-600',
+const toneClass = {
+  muted: 'text-ink-3',
+  alert: 'text-alert',
+  live: 'text-primary',
 }
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 grid-pattern opacity-30" />
-        <div className="absolute left-1/2 top-20 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-primary/[0.045] blur-[120px]" />
-      </div>
+    <section id="top" className="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-24">
+      <div className="pointer-events-none absolute inset-0 rule-grid rule-grid-fade opacity-70" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-6xl px-6">
-        <div className="mx-auto max-w-4xl text-center">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold tracking-wide text-slate-700 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            AI automation για ιατρεία και κλινικές
-          </motion.div>
-
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.08 }}
-            className="text-balance text-5xl font-black leading-[1.02] tracking-[-0.045em] text-slate-950 sm:text-6xl lg:text-7xl">
-            Κάθε ασθενής που επικοινωνεί
-            <br className="hidden sm:block" />
-            <span className="gradient-text"> πρέπει να παίρνει απάντηση.</span>
-          </motion.h1>
-
-          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.16 }}
-            className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-slate-600 sm:text-xl">
-            Το ClinicFlow αυτοματοποιεί την επικοινωνία της κλινικής σας — από την αναπάντητη κλήση και το booking μέχρι τα SMS, τις υπενθυμίσεις και τα follow-ups.
+      <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-6 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-16">
+        <div>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45 }}
+            className="eyebrow"
+          >
+            Για ιατρεία και κλινικές
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.24 }}
-            className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a href="#sales-demo" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-950 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-slate-900/15 transition hover:-translate-y-0.5 hover:bg-slate-800 sm:w-auto">
-              Δείτε πώς λειτουργεί <ArrowRight size={16} />
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.06 }}
+            className="mt-5 text-[2.5rem] leading-[1.06] sm:text-[3.25rem] lg:text-[3.5rem]"
+          >
+            Κάθε ασθενής που σας
+            <br className="hidden sm:block" /> προσπαθεί να επικοινωνήσει,
+            <span className="text-primary"> παίρνει απάντηση.</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.12 }}
+            className="mt-7 max-w-[34rem] text-[1.0625rem] leading-relaxed text-ink-2"
+          >
+            Το ClinicFlow παρακολουθεί τις κλήσεις και τα μηνύματα, ανακτά ό,τι χάθηκε,
+            κλείνει ραντεβού και στέλνει υπενθυμίσεις. Η ομάδα σας παρεμβαίνει μόνο όταν
+            χρειάζεται — όχι για να κυνηγάει κάθε ασθενή.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.18 }}
+            className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
+            <a
+              href="#demo"
+              className="group inline-flex items-center justify-center gap-2 bg-ink px-5 py-3 text-sm font-medium text-canvas transition-colors hover:bg-ink-2"
+            >
+              Δοκιμάστε το demo
+              <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
             </a>
-            <a href="#pricing" className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3.5 text-sm font-bold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-400 sm:w-auto">
-              Δείτε την τιμολόγηση
+            <a
+              href={REGISTER_URL}
+              className="inline-flex items-center justify-center gap-2 border border-line bg-surface px-5 py-3 text-sm font-medium text-ink transition-colors hover:border-ink-4"
+            >
+              14 ημέρες δωρεάν
             </a>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.35 }}
-            className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-500">
-            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-emerald-600" />14 ημέρες δωρεάν</span>
-            <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-emerald-600" />Με έμφαση στην ασφάλεια</span>
-            <span className="flex items-center gap-1.5"><Users size={14} className="text-emerald-600" />Για ομάδες και ιδιοκτήτες κλινικών</span>
-          </motion.div>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.26 }}
+            className="mt-7 text-[0.8125rem] leading-relaxed text-ink-3"
+          >
+            Χωρίς εγκατάσταση στον υπολογιστή σας. Χωρίς αλλαγή στο σύστημα που
+            κρατάτε ήδη αρχεία. Οι υπηρεσίες είναι σύμφωνες με τον GDPR.
+          </motion.p>
         </div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.42 }}
-          className="mx-auto mt-16 max-w-5xl">
-          <div className="rounded-[28px] border border-slate-200 bg-white p-3 shadow-[0_25px_70px_rgba(15,23,42,0.10)] sm:p-4">
-            <div className="rounded-[22px] border border-slate-200 bg-slate-50 p-5 sm:p-7">
-              <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-700">ClinicFlow · Live workflow</p>
-                  <h2 className="mt-2 text-xl font-black text-slate-950 sm:text-2xl">Μία χαμένη κλήση. Μία αυτόματη ροή.</h2>
-                  <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-600">
-                    Το σύστημα εντοπίζει την αναπάντητη κλήση, ενεργοποιεί την κατάλληλη επικοινωνία και συνεχίζει προς το booking.
-                  </p>
-                </div>
-                <div className="hidden h-12 w-12 place-items-center rounded-2xl bg-emerald-100 text-emerald-700 sm:grid"><Bot size={22} /></div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="relative"
+        >
+          <div className="panel overflow-hidden shadow-[0_1px_2px_rgba(13,14,16,0.04),0_12px_32px_-12px_rgba(13,14,16,0.10)]">
+            <div className="flex items-center justify-between border-b border-line px-5 py-3.5">
+              <div className="flex items-center gap-2.5">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
+                </span>
+                <span className="text-[0.8125rem] font-medium text-ink">Σήμερα</span>
+                <span className="text-[0.8125rem] text-ink-4">Τρίτη 14 Οκτωβρίου</span>
               </div>
+              <span className="text-[0.75rem] text-ink-4">Κλινική Αγίου Νικολάου</span>
+            </div>
 
-              <div className="mt-7 grid gap-3 md:grid-cols-3">
-                {flow.map(({ icon: Icon, label, value, tone }, index) => (
-                  <div key={label} className="relative rounded-2xl border border-slate-200 bg-white p-4">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className={"grid h-9 w-9 place-items-center rounded-xl " + toneClasses[tone]}><Icon size={17} /></div>
-                      {index < flow.length - 1 && <ArrowRight className="hidden text-slate-300 md:block" size={16} />}
-                    </div>
-                    <p className="mt-4 text-sm font-black text-slate-950">{label}</p>
-                    <p className="mt-1 flex items-center gap-1.5 text-xs font-medium text-slate-500">
-                      {index === 1 ? <Clock3 size={12} /> : <MessageSquare size={12} />}
-                      {value}
-                    </p>
+            <ul className="divide-y divide-line-2">
+              {day.map((item, i) => (
+                <motion.li
+                  key={item.time}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.4, delay: 0.35 + i * 0.09 }}
+                  className="flex items-start gap-4 px-5 py-3.5"
+                >
+                  <span data-numeric className="w-11 shrink-0 pt-px text-[0.8125rem] text-ink-4">
+                    {item.time}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[0.875rem] font-medium leading-snug text-ink">{item.title}</p>
+                    <p className="mt-0.5 truncate text-[0.8125rem] text-ink-3">{item.detail}</p>
                   </div>
-                ))}
-              </div>
+                  <span className={`shrink-0 pt-px ${toneClass[item.tone]}`}>
+                    {item.tone === 'alert' && <PhoneMissed size={15} />}
+                    {item.tone === 'live' && <CalendarCheck2 size={15} />}
+                    {item.tone === 'muted' && <Clock3 size={15} className="text-ink-4" />}
+                  </span>
+                </motion.li>
+              ))}
+            </ul>
 
-              <div className="mt-4 flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-2 text-sm font-bold text-emerald-900">
-                  <CheckCircle2 size={17} className="text-emerald-600" />
-                  Ο ασθενής έλαβε επιβεβαίωση.
+            <div className="grid grid-cols-3 border-t border-line">
+              {[
+                ['11', 'κλήσεις'],
+                ['8', 'ραντεβού'],
+                ['0', 'χειροκίνητα'],
+              ].map(([value, label], i) => (
+                <div
+                  key={label}
+                  className={`px-5 py-4 ${i > 0 ? 'border-l border-line' : ''}`}
+                >
+                  <p data-numeric className="font-serif text-2xl leading-none text-ink">
+                    {value}
+                  </p>
+                  <p className="mt-1.5 text-[0.75rem] text-ink-3">{label}</p>
                 </div>
-                <span className="text-xs font-semibold text-emerald-700">Η ομάδα ενημερώνεται αυτόματα</span>
-              </div>
+              ))}
             </div>
           </div>
+
+          <p className="mt-4 text-center text-[0.8125rem] text-ink-4 lg:text-left">
+            Η μέρα του γραφείου, όπως τη βλέπει η ομάδα σας.
+          </p>
         </motion.div>
+      </div>
+
+      <div className="relative mx-auto mt-20 max-w-6xl px-6">
+        <p className="max-w-2xl border-l-2 border-line pl-5 text-[0.875rem] leading-relaxed text-ink-3">
+          Δεν σας ζητάμε να αλλάξετε το σύστημα που κρατά ήδη τα αρχεία σας. Το ClinicFlow
+          μπαίνει δίπλα του και συνδέεται με το τηλέφωνο, το ημερολόγιο και το booking
+          που χρησιμοποιείτε ήδη.
+        </p>
       </div>
     </section>
   )

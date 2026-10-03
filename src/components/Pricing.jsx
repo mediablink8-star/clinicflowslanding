@@ -1,182 +1,163 @@
-import { motion } from 'framer-motion'
-import { Check, ArrowRight, Sparkles } from 'lucide-react'
+import { Check } from 'lucide-react'
+
+const REGISTER_URL = 'https://clinicflows.vercel.app/register'
+
+const trial = [
+  '20 SMS κατά τη διάρκεια της δοκιμής',
+  '30 AI κλήσεις κατά τη διάρκεια της δοκιμής',
+  'Όλες οι βασικές λειτουργίες, χωρίς περιορισμό',
+]
 
 const plans = [
   {
-    key: 'trial',
-    name: 'Δοκιμαστικό',
-    price: 'Δωρεάν',
-    priceNote: '14 ημέρες',
-    doctorRange: '1 γιατρός',
-    features: [
-      '20 SMS κατά τη δοκιμή',
-      '30 AI calls κατά τη δοκιμή',
-      'AI receptionist',
-      'Missed-call recovery',
-      'Online booking',
-    ],
-    popular: false,
-  },
-  {
-    key: 'starter',
     name: 'Starter',
-    price: '€350',
-    priceNote: '/ γιατρό / μήνα',
-    doctorRange: '1 γιατρός',
+    price: '350',
+    unit: '€ / γιατρό / μήνα',
+    for: 'Μία ιδιωτική πράξη',
     features: [
-      'AI receptionist & missed-call recovery',
+      'AI ρεσεψιόνις & ανάκτηση αναπάντητων κλήσεων',
       'Online booking & ημερολόγιο',
       'Υπενθυμίσεις και follow-ups',
+      'SMS και Voice AI',
       'Dashboard για την ομάδα',
-      'SMS & Voice AI',
     ],
-    popular: false,
   },
   {
-    key: 'growth',
     name: 'Growth',
-    price: '€600',
-    priceNote: '/ μήνα',
-    doctorRange: '2–3 γιατροί',
+    price: '600',
+    unit: '€ / μήνα',
+    for: '2–3 γιατροί',
+    featured: true,
     features: [
       'Όλα του Starter',
-      'Προηγμένα workflows',
-      'Περισσότερα SMS & AI calls',
+      'Προηγμένα workflows ανά ειδικότητα',
+      'Αυξημένα όρια SMS και AI κλήσεων',
       'Διαχείριση πολλών γιατρών',
-      'Priority support',
+      'Υποστήριξη προτεραιότητας',
     ],
-    popular: true,
   },
   {
-    key: 'scale',
     name: 'Scale',
-    price: '€1.000',
-    priceNote: '/ μήνα',
-    doctorRange: '4–7 γιατροί',
+    price: '1.000',
+    unit: '€ / μήνα',
+    for: '4–7 γιατροί',
     features: [
       'Όλα του Growth',
       'Custom workflows',
-      'Μεγαλύτερα usage limits',
-      'Priority support',
-      'Dedicated account management',
+      'Μεγαλύτερα όρια χρήσης',
+      'Υποστήριξη προτεραιότητας',
+      'Αφοσιωμένος διαχειριστής λογαριασμού',
     ],
-    popular: false,
-  },
-  {
-    key: 'enterprise',
-    name: 'Enterprise',
-    price: 'Custom',
-    priceNote: '',
-    doctorRange: 'Μεγάλες κλινικές',
-    features: [
-      'Απεριόριστα SMS & AI usage',
-      'Full custom integrations',
-      'Custom workflows',
-      'Dedicated support',
-      'Custom SLA',
-    ],
-    popular: false,
   },
 ]
 
-function PlanCard({ plan, index }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      whileHover={{ y: plan.popular ? -8 : -5 }}
-      className={`relative flex h-full flex-col rounded-3xl border p-6 transition-all duration-300 ${
-        plan.popular
-          ? 'z-10 border-primary/40 bg-dark-card shadow-2xl shadow-primary/10 lg:scale-[1.03]'
-          : 'border-dark-border bg-dark-card hover:border-primary/20 hover:shadow-xl'
-      }`}
-    >
-      {plan.popular && (
-        <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap">
-          <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-primary to-accent px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-primary/20">
-            <Sparkles size={11} />
-            Προτεινόμενο για ανάπτυξη
-          </span>
-        </div>
-      )}
-
-      <div className="mb-6">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">{plan.name}</p>
-        <div className="mt-3 flex items-baseline gap-1.5">
-          <span className="text-3xl font-black tracking-tight">{plan.price}</span>
-          {plan.priceNote && <span className="text-sm text-text-muted">{plan.priceNote}</span>}
-        </div>
-        <p className="mt-1.5 text-xs font-medium text-text-muted">{plan.doctorRange}</p>
-      </div>
-
-      <ul className="mb-8 flex-1 space-y-3">
-        {plan.features.map((feature) => (
-          <li key={feature} className="flex items-start gap-3 text-sm">
-            <Check size={15} className="mt-0.5 shrink-0 text-primary" />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <a
-        href={plan.key === 'enterprise' ? '#contact' : 'https://clinicflows.vercel.app/register'}
-        className={`group relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-5 py-3.5 text-sm font-bold transition-all ${
-          plan.popular
-            ? 'text-white'
-            : 'border border-dark-border text-dark hover:border-primary/30 hover:bg-dark-hover'
-        }`}
-      >
-        {plan.popular && (
-          <>
-            <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent" />
-            <span className="absolute inset-0 bg-gradient-to-r from-primary to-accent blur-md opacity-30" />
-          </>
-        )}
-        <span className="relative flex items-center gap-1.5">
-          {plan.key === 'enterprise' ? 'Επικοινωνία' : plan.key === 'trial' ? 'Δωρεάν Δοκιμή' : 'Ξεκίνα Τώρα'}
-          <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-        </span>
-      </a>
-    </motion.div>
-  )
-}
-
 export default function Pricing() {
   return (
-    <section id="pricing" className="relative overflow-hidden py-24 sm:py-32">
-      <div className="absolute inset-0 grid-pattern opacity-30" />
-      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-
-      <div className="relative mx-auto max-w-7xl px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          className="text-center"
-        >
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent">
-            <Sparkles size={14} />
-            Τιμολόγηση
-          </span>
-          <h2 className="text-3xl font-bold sm:text-4xl lg:text-5xl">
-            Επιλέξτε το επίπεδο που ταιριάζει <span className="gradient-text">στην κλινική σας.</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-text-muted">
-            Ξεκινήστε με 14 ημέρες δωρεάν και αναβαθμίστε καθώς μεγαλώνει η ομάδα και ο όγκος της κλινικής.
+    <section id="pricing" className="border-t border-line bg-surface py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end">
+          <div>
+            <p className="eyebrow">Τιμολόγηση</p>
+            <h2 className="mt-4 text-[2rem] leading-[1.1] sm:text-[2.5rem]">
+              Ξεκινάτε με 14 ημέρες δωρεάν.
+            </h2>
+          </div>
+          <p className="text-[1.0625rem] leading-relaxed text-ink-2 lg:pb-2">
+            Δοκιμάζετε σε μία πραγματική ροή της κλινικής σας και μετά αποφασίζετε. Χωρίς
+            δέσμευση, χωρίς κρυφές χρεώσεις εγκατάστασης.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {plans.map((plan, index) => (
-            <PlanCard key={plan.key} plan={plan} index={index} />
+        {/* Trial band */}
+        <div className="mt-12 flex flex-col gap-6 border border-primary/25 bg-primary-tint px-6 py-7 lg:flex-row lg:items-center lg:justify-between sm:px-8">
+          <div>
+            <p className="font-serif text-[1.5rem] leading-none text-primary-hover">
+              Δοκιμαστικό · 14 ημέρες
+            </p>
+            <p className="mt-2 text-[0.9375rem] text-ink-2">
+              Με όλο το περιεχόμενο της υπηρεσίας, για να δοκιμάσετε πραγματικές κλήσεις και
+              κρατήσεις.
+            </p>
+          </div>
+          <ul className="flex flex-col gap-1.5 lg:min-w-[20rem]">
+            {trial.map((item) => (
+              <li key={item} className="flex items-start gap-2.5 text-[0.875rem] text-ink-2">
+                <Check size={15} className="mt-0.5 shrink-0 text-primary" />
+                {item}
+              </li>
+            ))}
+          </ul>
+          <a
+            href={REGISTER_URL}
+            className="shrink-0 bg-ink px-6 py-3.5 text-center text-sm font-medium text-canvas transition-colors hover:bg-ink-2"
+          >
+            Ξεκινήστε τη δοκιμή
+          </a>
+        </div>
+
+        {/* Plans */}
+        <div className="mt-16 grid gap-y-12 md:grid-cols-3 md:gap-y-0">
+          {plans.map((plan, i) => (
+            <div
+              key={plan.name}
+              className={`flex flex-col md:px-8 ${
+                i > 0 ? 'md:border-l md:border-line' : ''
+              } ${i === 0 ? 'md:pl-0' : ''}`}
+            >
+              <div className="flex items-baseline justify-between">
+                <h3 className="text-[1.25rem]">{plan.name}</h3>
+                {plan.featured && (
+                  <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-primary">
+                    Δημοφιλές
+                  </span>
+                )}
+              </div>
+
+              <p className="mt-3 text-[0.8125rem] text-ink-3">{plan.for}</p>
+
+              <div className="mt-5 flex items-baseline gap-2">
+                <span data-numeric className="font-serif text-[2.5rem] leading-none text-ink">
+                  €{plan.price}
+                </span>
+                <span className="text-[0.8125rem] text-ink-3">{plan.unit}</span>
+              </div>
+
+              <ul className="mt-8 flex flex-1 flex-col gap-2.5">
+                {plan.features.map((f) => (
+                  <li key={f} className="flex items-start gap-2.5 text-[0.875rem] leading-relaxed text-ink-2">
+                    <Check size={15} className="mt-0.5 shrink-0 text-primary" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href={REGISTER_URL}
+                className={`mt-8 px-5 py-3 text-center text-sm font-medium transition-colors ${
+                  plan.featured
+                    ? 'bg-ink text-canvas hover:bg-ink-2'
+                    : 'border border-line bg-canvas text-ink hover:border-ink-4'
+                }`}
+              >
+                Ξεκινήστε
+              </a>
+            </div>
           ))}
         </div>
 
-        <p className="mt-8 text-center text-xs text-text-muted">
-          Οι τιμές αφορούν τη χρήση του ClinicFlow και εμφανίζονται ανάλογα με το μέγεθος της κλινικής.
-        </p>
+        <div className="mt-16 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[0.9375rem] text-ink-2">
+            Μεγαλύτερη κλινική ή ειδικές απαιτήσεις;{' '}
+            <a href="mailto:hello@clinicflows.app" className="text-primary underline underline-offset-4">
+              Γράψτε μας
+            </a>{' '}
+            και στέλνουμε προσφορά.
+          </p>
+          <p className="text-[0.8125rem] text-ink-4">
+            Οι τιμές αφορούν τη χρήση του ClinicFlow και εμφανίζονται ανάλογα με το μέγεθος της
+            κλινικής.
+          </p>
+        </div>
       </div>
     </section>
   )
