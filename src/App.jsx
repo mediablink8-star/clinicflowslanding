@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Demo from './components/Demo'
+import ProductTour from './components/ProductTour'
 import Capabilities from './components/Capabilities'
 import Pricing from './components/Pricing'
 import FAQ from './components/FAQ'
@@ -14,6 +15,7 @@ export default function App() {
       <main>
         <Hero />
         <Demo />
+        <ProductTour />
         <Capabilities />
         <Pricing />
         <FAQ />

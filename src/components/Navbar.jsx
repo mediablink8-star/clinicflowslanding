@@ -3,6 +3,7 @@ import { Menu, X } from 'lucide-react'
 
 const links = [
   { label: 'Demo', href: '#demo' },
+  { label: 'Προϊόν', href: '#product' },
   { label: 'Τι κάνει', href: '#capabilities' },
   { label: 'Τιμολόγηση', href: '#pricing' },
   { label: 'Ερωτήσεις', href: '#faq' },

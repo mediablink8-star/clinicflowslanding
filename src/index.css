@@ -19,6 +19,11 @@
   --color-primary-hover: #0a7a5a;
   --color-primary-tint: #eef7f3;
 
+  /* Second accent — terracotta. Used only where a second data series or the
+     voice/AI surfaces need separating from the primary. */
+  --color-clay: #b0491f;
+  --color-clay-tint: #fbf1ec;
+
   --color-alert: #b4342b;
   --color-alert-tint: #fdf2f1;
 
@@ -121,6 +126,52 @@
     background: var(--color-surface);
     border: 1px solid var(--color-line);
     border-radius: 6px;
+  }
+
+  /* Call waveform bars. Paused unless .is-speaking is set, so the animation
+     never runs on a screen that isn't showing a live call. */
+  .wave-bar {
+    transform-origin: center;
+    animation: wave-idle 2.4s ease-in-out infinite;
+  }
+
+  .wave-bar.is-speaking {
+    animation: wave-live 0.7s ease-in-out infinite;
+  }
+
+  /* Slow shimmer for the "live" dot on active call screens */
+  .pulse-live {
+    animation: pulse-live 2s ease-in-out infinite;
+  }
+}
+
+@keyframes wave-idle {
+  0%,
+  100% {
+    transform: scaleY(0.32);
+  }
+  50% {
+    transform: scaleY(0.52);
+  }
+}
+
+@keyframes wave-live {
+  0%,
+  100% {
+    transform: scaleY(0.28);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pulse-live {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
   }
 }
 
